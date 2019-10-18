@@ -1,0 +1,37 @@
+html {
+  background-color: $viewport-background-color;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  height: 9000px;
+}
+
+body {
+  margin: 0;
+}
+
+$z-index-section: 700;
+
+#wrapper {
+  min-width: 980px;
+  overflow: hidden;
+
+  > section {
+    overflow: hidden;
+    position: relative;
+    z-index: $z-index-section;
+
+    > div {
+      overflow: hidden;
+    }
+  }
+}

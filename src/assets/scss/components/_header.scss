@@ -1,0 +1,130 @@
+@import '../variables';
+
+$header-button-text--height: 94px;
+$header-button-text--width: 38px;
+$header-button--height: 178px;
+$header-button--width: $header-button--height - $header-button-text--height; // 84px
+$header-button--z-index: 800;
+
+#header_btn-menu {
+  @include size($header-button--width, $header-button--height);
+  @include position(fixed, 50% null null (-$header-button--width));
+  background: $c-white $url-10 no-repeat center center;
+  margin-top: -$header-button--height / 2;
+  transition-delay: 0s;
+  transition-duration: 0.45s;
+  transition-property: left;
+  transition-timing-function: 'ease-in-out';
+  z-index: $header-button--z-index;
+
+  &.loaded {
+    left: 0;
+  }
+
+  &.hidden,
+  &.no-menu {
+    left: -$header-button--width;
+  }
+
+  &:hover {
+    > span {
+      > span {
+        transform: rotatey(-90deg);
+
+        &::before {
+          background-color: $color-cararra;
+        }
+      }
+    }
+  }
+
+  > span {
+    @include size($header-button-text--width, $header-button-text--height);
+    display: block;
+    left: 23px;
+    overflow: hidden;
+    position: absolute;
+    top: 61px;
+
+    > span {
+      @include size(100%);
+      background: $c-white $url-11 no-repeat center center;
+      display: block;
+      position: relative;
+      // text-indent: -5000px;
+      transform-origin: 0 50%;
+      transform-style: preserve-3d;
+      transition-delay: 0s;
+      transition-duration: 0.45s;
+      transition-property: background, transform;
+      transition-timing-function: 'ease-in-out';
+
+      &::before {
+        @include size(100%);
+        background: $color-storm-dust $url-11 no-repeat center center;
+        content: attr(data-hover);
+        display: block;
+
+        left: 100%;
+        position: absolute;
+        text-indent: -5000px;
+        top: 0;
+        transform: rotatey(90deg);
+        transform-origin: inherit;
+        transition-delay: inherit;
+        transition-duration: inherit;
+        transition-property: background, transform;
+        transition-timing-function: inherit;
+      }
+    }
+  }
+}
+
+#header {
+  background: $url-12;
+  cursor: $url-13 21 21, auto;
+  // display: none;
+  opacity: 0;
+  transition: 750ms opacity;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+
+  &.opened {
+    display: block;
+    opacity: 1;
+    z-index: 825;
+  }
+
+  .card-container {
+    &.home {
+      .btn-previous {
+        display: none;
+      }
+
+      .btn-next {
+        display: none;
+      }
+
+      .menu {
+        margin: 0;
+
+        > li > a {
+          .big {
+            padding-left: 25px;
+            text-align: left;
+          }
+
+          > span {
+            &::before {
+              padding: 0 25px;
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+	"name": "jova-construction-site",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "parcel src/index.html --open",
+		"build": "parcel build src/*.html"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"auto-bind": "^2.1.1",
+		"bourbon": "^6.0.0",
+		"imagesloaded": "^4.1.4",
+		"jquery": "^1.11.1"
+	},
+	"devDependencies": {
+		"@babel/preset-env": "^7.4.3",
+		"autoprefixer": "^9.6.5",
+		"babel-core": "^6.26.3",
+		"babel-eslint": "^10.0.3",
+		"babel-preset-env": "^1.7.0",
+		"cssnano": "^4.1.10",
+		"eslint": "^6.0.1",
+		"eslint-config-airbnb-base": "^14.0.0",
+		"eslint-config-prettier": "^6.4.0",
+		"eslint-loader": "^3.0.2",
+		"eslint-plugin-babel": "^5.3.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-jquery": "^1.5.1",
+		"eslint-plugin-prettier": "^3.1.1",
+		"flexboxgrid": "^6.3.1",
+		"node-sass": "^4.12.0",
+		"prettier": "^1.18.2"
+	}
+}
