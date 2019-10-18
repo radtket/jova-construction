@@ -54,8 +54,11 @@ $focus-outline: $focus-outline-width solid $focus-outline-color;
 $focus-outline-offset: 2px;
 
 // Animations
-$base-duration: 150ms;
-$base-timing: ease;
+$base-transition-duration: 150ms;
+$base-transition-timing: ease;
+$base-transition-duration: 0.45s;
+$default-transition-timing: ease-in-out;
+$default-transition: $base-transition-duration $default-transition-timing;
 
 // Images
 $font-0: Oswald;

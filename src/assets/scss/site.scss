@@ -1,6 +1,7 @@
 // @import './vendor/reset';
 @import './vendor/normalize';
 @import '../../../node_modules/bourbon/core/bourbon';
+@import 'utils/mixins';
 @import 'variables';
 @import 'base/buttons';
 @import 'base/forms';
@@ -87,13 +88,10 @@ body[data-language='en'] {
   z-index: 10;
 
   > div {
+    @include transition(width 0.75s ease-in-out 0);
     background: $c-white;
     overflow: hidden;
     position: relative;
-    transition-delay: 0s;
-    transition-duration: 0.75s;
-    transition-property: width;
-    transition-timing-function: 'ease-in-out';
     width: 0;
 
     > div {
@@ -105,13 +103,10 @@ body[data-language='en'] {
         position: absolute;
 
         > div {
+          @include transition(width 0.75s ease-in-out 0.75s, height 0.75s ease-in-out 0.75s);
           background: $color-rangoon-green;
           overflow: hidden;
           position: absolute;
-          transition-delay: 0.75s;
-          transition-duration: 0.75s;
-          transition-property: width, height;
-          transition-timing-function: 'ease-in-out';
         }
 
         &.top {
@@ -168,13 +163,10 @@ body[data-language='en'] {
         z-index: 15;
 
         > div {
+          @include transition(width 0.75s ease-in-out 1s, height 0.75s ease-in-out 1s);
           background: $color-chicago;
           overflow: hidden;
           position: absolute;
-          transition-delay: 1s;
-          transition-duration: 0.75s;
-          transition-property: width, height;
-          transition-timing-function: 'ease-in-out';
         }
 
         &.top {
@@ -280,15 +272,12 @@ body[data-language='en'] {
     }
 
     h3 {
+      @include transition(color 0.45s ease-in-out 1.35s);
       background: $url-5 no-repeat 261px 12px;
       color: transparent;
       overflow: hidden;
       padding-bottom: 1px;
       position: relative;
-      transition-delay: 1.35s;
-      transition-duration: 0.45s;
-      transition-property: color;
-      transition-timing-function: 'ease-in-out';
 
       > span {
         display: block;
@@ -323,6 +312,7 @@ body[data-language='en'] {
         position: relative;
 
         > a {
+          @include transition(opacity 0.45s ease-in-out 1.45s);
           color: $color-rangoon-green;
           display: block;
           filter: alpha(opacity=0);
@@ -330,10 +320,6 @@ body[data-language='en'] {
           opacity: 0;
           overflow: hidden;
           position: relative;
-          transition-delay: 1.45s;
-          transition-duration: 0.45s;
-          transition-property: opacity;
-          transition-timing-function: 'ease-in-out';
           z-index: 1;
 
           > span {
@@ -354,15 +340,12 @@ body[data-language='en'] {
             }
 
             .big {
+              @include transition(background 0.45s ease-in-out 0, margin-top 0.45s ease-in-out 0);
               display: block;
               font-size: 15px;
               line-height: 50px;
               position: relative;
               text-align: center;
-              transition-delay: 0s;
-              transition-duration: 0.45s;
-              transition-property: margin-top, background;
-              transition-timing-function: 'ease-in-out';
 
               > span {
                 display: block;
@@ -462,6 +445,7 @@ body[data-language='en'] {
       width: 59px;
 
       .small {
+        @include transition(color 0.45s ease-in-out 1.25s);
         color: transparent;
         display: block;
         font-family: $font-0, $font-1;
@@ -471,10 +455,6 @@ body[data-language='en'] {
         position: absolute;
         text-transform: uppercase;
         top: 7px;
-        transition-delay: 1.25s;
-        transition-duration: 0.45s;
-        transition-property: color;
-        transition-timing-function: 'ease-in-out';
       }
 
       &:hover {
@@ -492,6 +472,7 @@ body[data-language='en'] {
       width: 59px;
 
       .small {
+        @include transition(color 0.45s ease-in-out 1.25s);
         color: transparent;
         display: block;
         font-family: $font-0, $font-1;
@@ -501,10 +482,6 @@ body[data-language='en'] {
         position: absolute;
         text-transform: uppercase;
         top: 7px;
-        transition-delay: 1.25s;
-        transition-duration: 0.45s;
-        transition-property: color;
-        transition-timing-function: 'ease-in-out';
       }
 
       &:hover {

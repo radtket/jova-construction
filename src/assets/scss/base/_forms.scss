@@ -38,7 +38,7 @@ textarea {
   box-sizing: border-box;
   margin-bottom: $small-spacing;
   padding: $base-spacing / 3;
-  transition: border-color $base-duration $base-timing;
+  transition: border-color $base-transition-duration $base-transition-timing;
   width: 100%;
 
   &:hover {

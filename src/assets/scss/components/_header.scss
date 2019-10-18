@@ -9,12 +9,9 @@ $header-button--z-index: 800;
 #header_btn-menu {
   @include size($header-button--width, $header-button--height);
   @include position(fixed, 50% null null (-$header-button--width));
+  @include transition(left 0.45s ease-in-out);
   background: $c-white $url-10 no-repeat center center;
   margin-top: -$header-button--height / 2;
-  transition-delay: 0s;
-  transition-duration: 0.45s;
-  transition-property: left;
-  transition-timing-function: 'ease-in-out';
   z-index: $header-button--z-index;
 
   &.loaded {
@@ -48,19 +45,17 @@ $header-button--z-index: 800;
 
     > span {
       @include size(100%);
+      @include transition(background 0.45s ease-in-out 0, transform 0.45s ease-in-out);
       background: $c-white $url-11 no-repeat center center;
       display: block;
       position: relative;
       // text-indent: -5000px;
       transform-origin: 0 50%;
       transform-style: preserve-3d;
-      transition-delay: 0s;
-      transition-duration: 0.45s;
-      transition-property: background, transform;
-      transition-timing-function: 'ease-in-out';
 
       &::before {
         @include size(100%);
+        @include transition(background 0.45s ease-in-out 0, transform 0.45s ease-in-out);
         background: $color-storm-dust $url-11 no-repeat center center;
         content: attr(data-hover);
         display: block;
@@ -71,10 +66,6 @@ $header-button--z-index: 800;
         top: 0;
         transform: rotatey(90deg);
         transform-origin: inherit;
-        transition-delay: inherit;
-        transition-duration: inherit;
-        transition-property: background, transform;
-        transition-timing-function: inherit;
       }
     }
   }
