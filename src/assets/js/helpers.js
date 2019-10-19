@@ -26,6 +26,8 @@ export const addClass = (ele, myClass) => {
 	}
 };
 
+export const isLoaded = qs => addClass(qs, 'loaded');
+
 export function fadeOut(el) {
 	const element = el;
 	element.style.opacity = 1;

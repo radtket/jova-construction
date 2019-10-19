@@ -61,10 +61,10 @@ $default-transition-timing: ease-in-out;
 $default-transition: $base-transition-duration $default-transition-timing;
 
 // Images
-$font-0: Oswald;
+$font-0: 'Oswald';
 $font-1: sans-serif;
-$font-2: Anonymous Pro;
-$font-3: Roboto Condensed;
+$font-2: 'Anonymous Pro', monospace;
+$font-3: 'Roboto Condensed';
 $url-1: url('../images/layout/header_btn-previous.png');
 $url-2: url('../images/layout/header_btn-next.png');
 $url-4: url('../images/layout/header_logo.png');

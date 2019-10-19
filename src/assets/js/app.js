@@ -1,11 +1,9 @@
 import imagesLoaded from 'imagesLoaded';
-import { addClass } from './helpers';
+import { addClass, isLoaded } from './helpers';
 
-console.log('hi');
+// Elements
 const btnHeader = document.querySelector('#header_btn-menu');
-const loadingMask = document.querySelector('#loading-mask');
 const $header = document.querySelector('#header');
-const isLoaded = qs => addClass(qs, 'loaded');
 
 /* Feature detection */
 let passiveIfSupported = false;
@@ -20,22 +18,16 @@ try {
 			},
 		})
 	);
-} catch (err) {}
+} catch (err) {
+	console.log({ err });
+}
 
-window.addEventListener(
-	'scroll',
-	event => {
-		console.log({ event });
-	},
-	passiveIfSupported
-);
-
-imagesLoaded(document.querySelector('#wrapper'), function(instance) {
-	isLoaded('#loading-mask');
-
-	setTimeout(() => {
-		isLoaded('#header_btn-menu');
-	}, 450);
+imagesLoaded(document.querySelector('#wrapper'), instance => {
+	const { isComplete } = instance;
+	if (isComplete) {
+		isLoaded('#loading-mask');
+		setTimeout(() => isLoaded('#header_btn-menu'), 450);
+	}
 });
 
 function openHeaderMenu(e) {
@@ -46,7 +38,6 @@ function openHeaderMenu(e) {
 		isLoaded('#header > .card-container');
 		$header.querySelector('.card-container').classList.remove('no-anim');
 	}, 450);
-	console.log('You finally clicked without jQuery', this);
 }
 
 function closeHeaderMenu({ target: { nodeName } }) {
@@ -63,3 +54,11 @@ function closeHeaderMenu({ target: { nodeName } }) {
 
 btnHeader.addEventListener('click', openHeaderMenu);
 $header.addEventListener('click', closeHeaderMenu);
+
+window.addEventListener(
+	'scroll',
+	event => {
+		console.log('scrollinggg', { event });
+	},
+	passiveIfSupported
+);

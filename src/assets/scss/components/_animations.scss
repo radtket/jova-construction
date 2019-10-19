@@ -1,0 +1,42 @@
+.no-anim * {
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}
+
+.hover-effect-1 {
+  .effect {
+    @include transition(all);
+    background: $c-white;
+    display: block;
+    height: 65px;
+    position: relative;
+    transform-origin: 50% 0;
+    transform-style: preserve-3d;
+
+    &::before {
+      @include size(100%);
+      @include transition(background);
+      @include position(absolute, 100% null null 0);
+      background: $color-storm-dust;
+      content: attr(data-hover);
+      display: block;
+      font-family: $font-2;
+      font-size: 17px;
+      line-height: 65px;
+      padding: 0 25px;
+      transform: rotatex(-90deg);
+      transform-origin: 50% 0;
+      z-index: 2;
+    }
+  }
+
+  &:hover {
+    .effect {
+      transform: rotatex(90deg);
+
+      &::before {
+        background: $color-cararra;
+      }
+    }
+  }
+}

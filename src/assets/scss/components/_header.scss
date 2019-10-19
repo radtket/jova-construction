@@ -37,33 +37,28 @@ $header-button--z-index: 800;
 
   > span {
     @include size($header-button-text--width, $header-button-text--height);
+    @include position(absolute, 61px null null 23px);
     display: block;
-    left: 23px;
     overflow: hidden;
-    position: absolute;
-    top: 61px;
 
     > span {
       @include size(100%);
-      @include transition(background 0.45s ease-in-out 0, transform 0.45s ease-in-out);
+      @include transition(background 0.45s ease-in-out, transform 0.45s ease-in-out);
       background: $c-white $url-11 no-repeat center center;
       display: block;
       position: relative;
-      // text-indent: -5000px;
+      text-indent: -5000px;
       transform-origin: 0 50%;
       transform-style: preserve-3d;
 
       &::before {
+        @include position(absolute, 0 null null 100%);
         @include size(100%);
-        @include transition(background 0.45s ease-in-out 0, transform 0.45s ease-in-out);
+        @include transition(background 0.45s ease-in-out, transform 0.45s ease-in-out);
         background: $color-storm-dust $url-11 no-repeat center center;
         content: attr(data-hover);
         display: block;
-
-        left: 100%;
-        position: absolute;
         text-indent: -5000px;
-        top: 0;
         transform: rotatey(90deg);
         transform-origin: inherit;
       }
@@ -72,16 +67,13 @@ $header-button--z-index: 800;
 }
 
 #header {
+  @include position(fixed, 0 null null 0);
+  @include size(100%);
   background: $url-12;
   cursor: $url-13 21 21, auto;
   // display: none;
   opacity: 0;
-  transition: 750ms opacity;
-  height: 100%;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
+  transition: opacity 750ms;
 
   &.opened {
     display: block;
