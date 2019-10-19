@@ -4,6 +4,8 @@ import { addClass, isLoaded } from './helpers';
 // Elements
 const btnHeader = document.querySelector('#header_btn-menu');
 const $header = document.querySelector('#header');
+const scrollButton = document.querySelector('.btn-scroll-down');
+let newScroll;
 
 /* Feature detection */
 let passiveIfSupported = false;
@@ -52,13 +54,29 @@ function closeHeaderMenu({ target: { nodeName } }) {
 	}
 }
 
+const initHome = setTimeout(() => {
+	isLoaded('#block1 .card-container');
+	setTimeout(() => {
+		isLoaded('.btn-scroll-down');
+		// if (isMobile) {
+		// 	isLoaded('.to-load');
+		// }
+	}, 1500);
+}, 750);
+
 btnHeader.addEventListener('click', openHeaderMenu);
 $header.addEventListener('click', closeHeaderMenu);
+window.onload = initHome;
 
 window.addEventListener(
 	'scroll',
-	event => {
-		console.log('scrollinggg', { event });
+	() => {
+		newScroll = window.scrollY;
+		if (newScroll > 10) {
+			addClass('.btn-scroll-down', 'hidden');
+		} else {
+			scrollButton.classList.remove('hidden');
+		}
 	},
 	passiveIfSupported
 );

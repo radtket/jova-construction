@@ -15,6 +15,7 @@
 @import 'components/header';
 @import 'components/card-container';
 @import 'components/animations';
+@import 'components/scroll-btn';
 
 #loading-mask {
   @include size(100%);

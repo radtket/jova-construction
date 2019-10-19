@@ -25,50 +25,42 @@
         }
 
         &.top {
+          @include position(null, 0 null null 0);
           @include size(100%, 4px);
-          left: 0;
-          top: 0;
 
           > div {
+            @include position(null, 0 null null 0);
             @include size(0, 100%);
-            left: 0;
-            top: 0;
           }
         }
 
         &.right {
+          @include position(null, 0 0 null null);
           @include size(4px, 100%);
-          right: 0;
-          top: 0;
 
           > div {
+            @include position(null, 0 null null 0);
             @include size(100%, 0);
-            left: 0;
-            top: 0;
           }
         }
 
         &.bottom {
+          @include position(null, null 0 0 null);
           @include size(100%, 4px);
-          bottom: 0;
-          right: 0;
 
           > div {
+            @include position(null, 0 0 null null);
             @include size(0, 100%);
-            right: 0;
-            top: 0;
           }
         }
 
         &.left {
+          @include position(null, null null 0 0);
           @include size(4px, 100%);
-          bottom: 0;
-          left: 0;
 
           > div {
+            @include position(null, null null 0 0);
             @include size(100%, 0);
-            bottom: 0;
-            left: 0;
           }
         }
       }
@@ -85,58 +77,44 @@
         }
 
         &.top {
-          height: 2px;
-          left: 0;
-          top: 0;
-          width: 100%;
+          @include position(null, 0 null null 0);
+          @include size(100%, 2px);
 
           > div {
-            height: 100%;
-            left: 0;
-            top: 0;
-            width: 0;
+            @include position(null, 0 null null 0);
+            @include size(0, 100%);
           }
         }
 
         &.right {
+          @include position(null, 0 0 null null);
           height: 100%;
-          right: 0;
-          top: 0;
           width: 2px;
 
           > div {
-            height: 0;
-            left: 0;
-            top: 0;
-            width: 100%;
+            @include position(null, 0 null null 0);
+            @include size(100%, 0);
           }
         }
 
         &.bottom {
-          bottom: 0;
-          height: 2px;
-          right: 0;
-          width: 100%;
+          @include position(null, null 0 0 null);
+          @include size(100%, 2px);
 
           > div {
-            height: 100%;
-            right: 0;
-            top: 0;
-            width: 0;
+            @include position(null, 0 0 null null);
+            @include size(0, 100%);
           }
         }
 
         &.left {
-          bottom: 0;
+          @include position(null, null null 0 0);
           height: 100%;
-          left: 0;
           width: 2px;
 
           > div {
-            bottom: 0;
-            height: 0;
-            left: 0;
-            width: 100%;
+            @include position(null, null null 0 0);
+            @include size(100%, 0);
           }
         }
       }

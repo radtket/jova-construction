@@ -1,0 +1,78 @@
+.btn-scroll-down {
+  bottom: -80px;
+  display: block;
+  left: 50%;
+  margin-left: -40px;
+  position: fixed;
+  transition-delay: 0s;
+  transition-duration: 0.55s;
+  transition-property: opacity, bottom;
+  transition-timing-function: 'ease-in-out';
+  z-index: 820;
+
+  &:hover {
+    > .icon {
+      background-position: center 62px;
+    }
+  }
+
+  &.about {
+    left: 0;
+    margin-left: -15px;
+
+    @media (max-width: 1380px) {
+      margin-left: -10px;
+    }
+
+    > {
+      .bg {
+        background: $c-white;
+        filter: alpha(opacity=100);
+        opacity: 1;
+      }
+
+      .icon {
+        background-image: $url-9;
+        border-color: $color-rangoon-green;
+      }
+    }
+  }
+
+  &.loaded {
+    bottom: 65px;
+  }
+
+  &.hidden {
+    filter: alpha(opacity=0);
+    opacity: 0;
+  }
+
+  > {
+    .bg {
+      background: $c-black;
+      display: block;
+      filter: alpha(opacity=25);
+      height: 80px;
+      opacity: 0.25;
+      position: relative;
+      width: 80px;
+    }
+
+    .icon {
+      background: $url-8 repeat-y center center;
+      border: 2px solid $color-twine;
+      display: block;
+      height: 62px;
+      left: 0;
+      margin: 7px;
+      position: absolute;
+      top: 0;
+      transition-delay: 0s;
+      transition-duration: 0.45s;
+      transition-property: background;
+      transition-timing-function: 'ease-in-out';
+      width: 62px;
+      z-index: 1;
+    }
+  }
+}
