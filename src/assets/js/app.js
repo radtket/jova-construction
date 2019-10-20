@@ -67,15 +67,17 @@ function closeHeaderMenu({ target: { nodeName } }) {
 	}
 }
 
-const initHome = setTimeout(() => {
-	isLoaded('#block1 .card-container');
+const initHome = () =>
 	setTimeout(() => {
-		isLoaded('.btn-scroll-down');
-		// if (isMobile) {
-		// 	isLoaded('.to-load');
-		// }
-	}, 1500);
-}, 750);
+		console.log("	console.log('initHome');");
+		isLoaded('#block1 .card-container');
+		setTimeout(() => {
+			isLoaded('.btn-scroll-down');
+			// if (isMobile) {
+			// 	isLoaded('.to-load');
+			// }
+		}, 1500);
+	}, 750);
 
 const infiniteSliderSquares = new InfiniteSlider(
 	$('#slider-container-squares'),
@@ -186,21 +188,20 @@ const initToLoad = () => {
 
 function scrollContent() {
 	const newScroll = window.scrollY;
-	const windowHeight = window.innerHeight;
-	const scrollHeight = newScroll + windowHeight;
+	const isPastTopOfWindow = newScroll > 10;
 
-	if (newScroll > 10) {
+	if (isPastTopOfWindow) {
 		addClass('.btn-scroll-down', 'hidden');
 	} else {
 		scrollButton.classList.remove('hidden');
 	}
 
 	if (infiniteSliderSquares.running !== undefined) {
-		if (newScroll > 10 && infiniteSliderSquares.running) {
+		if (isPastTopOfWindow && infiniteSliderSquares.running) {
 			infiniteSliderSquares.stop();
 		}
 
-		if (newScroll < 10 && !infiniteSliderSquares.running) {
+		if (!isPastTopOfWindow && !infiniteSliderSquares.running) {
 			infiniteSliderSquares.start();
 		}
 	}
@@ -218,13 +219,13 @@ function scrollContent() {
 }
 
 const adjustTextGrids = () => {
-	const textGrid = document.querySelector('.text-grid');
-	const modell = textGrid.querySelector('.line:first-child > div:first-child')
+	const $textGrid = document.querySelector('.text-grid');
+	const modell = $textGrid.querySelector('.line:first-child > div:first-child')
 		.clientWidth;
-	textGrid.style.marginTop = `${-modell / 2}px`;
-	const mannnn = textGrid.querySelectorAll('.line > div');
 
-	Array.from(mannnn).forEach(item => {
+	$textGrid.style.marginTop = `${-modell / 2}px`;
+
+	Array.from($textGrid.querySelectorAll('.line > div')).forEach(item => {
 		const node = item;
 		node.style.height = `${modell}px`;
 	});
@@ -237,9 +238,7 @@ const fullHeight = () => {
 };
 
 const initScrollSpy = () => {
-	const anchors = document.querySelectorAll('.btn-anchor');
-
-	Array.from(anchors).forEach(item => {
+	Array.from(document.querySelectorAll('.btn-anchor')).forEach(item => {
 		item.addEventListener('click', e => {
 			e.preventDefault();
 			if (!isAnimationRunning && !hasClass(item, 'active')) {
@@ -250,7 +249,7 @@ const initScrollSpy = () => {
 				const duration = scroll * 0.5 < 1250 ? 1250 : scroll * 0.5;
 
 				anime({
-					targets: 'html',
+					targets: ['html', 'body'],
 					scrollTop: targetScrollTop,
 					duration,
 					easing: 'easeInOutQuad',
@@ -301,7 +300,7 @@ const jqOnLoad = () => {
 
 $btnHeader.addEventListener('click', openHeaderMenu);
 $header.addEventListener('click', closeHeaderMenu);
-window.onload = initHome;
+window.onload = initHome();
 window.onload = addClass('#slider-container-squares', 't-translate');
-window.onload = positionContent;
-window.onload = jqOnLoad;
+window.onload = positionContent();
+window.onload = jqOnLoad();
