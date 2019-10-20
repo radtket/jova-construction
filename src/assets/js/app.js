@@ -1,4 +1,5 @@
 import imagesLoaded from 'imagesLoaded';
+import anime from 'animejs/lib/anime.es.js';
 import {
 	addClass,
 	isLoaded,
@@ -17,6 +18,7 @@ const $wrapper = document.querySelector('#wrapper');
 const $footer = document.querySelector('#footer');
 const $body = document.querySelector('body');
 const $html = document.querySelector('html');
+let isAnimationRunning = false;
 
 /* Feature detection */
 let passiveIfSupported = false;
@@ -234,6 +236,30 @@ const fullHeight = () => {
 	).style.height = `${window.innerHeight}px`;
 };
 
+const initScrollSpy = () => {
+	const anchors = document.querySelectorAll('.btn-anchor');
+
+	Array.from(anchors).forEach(item => {
+		item.addEventListener('click', e => {
+			e.preventDefault();
+			if (!isAnimationRunning && !hasClass(item, 'active')) {
+				const targetScrollTop = getOffsetTop(
+					document.querySelector(`#${item.getAttribute('data-anchor')}`)
+				);
+				const scroll = Math.abs(window.scrollY - targetScrollTop);
+				const duration = scroll * 0.5 < 1250 ? 1250 : scroll * 0.5;
+
+				anime({
+					targets: 'html',
+					scrollTop: targetScrollTop,
+					duration,
+					easing: 'easeInOutQuad',
+				});
+			}
+		});
+	});
+};
+
 function positionContent() {
 	// Full Height
 	fullHeight();
@@ -251,22 +277,31 @@ window.addEventListener(
 );
 
 const onReady = () => {
-	$html.scrollTop = 0;
-	$body.scrollTop = 0;
+	window.scrollTo({
+		top: 0,
+		behavior: 'smooth',
+	});
 	scrollContent();
 };
 
+const { readyState, documentElement } = document;
+
 if (
-	document.readyState === 'complete' ||
-	(document.readyState !== 'loading' && !document.documentElement.doScroll)
+	readyState === 'complete' ||
+	(readyState !== 'loading' && !documentElement.doScroll)
 ) {
 	onReady();
 } else {
 	document.addEventListener('DOMContentLoaded', onReady);
 }
 
+const jqOnLoad = () => {
+	initScrollSpy();
+};
+
 $btnHeader.addEventListener('click', openHeaderMenu);
 $header.addEventListener('click', closeHeaderMenu);
 window.onload = initHome;
 window.onload = addClass('#slider-container-squares', 't-translate');
 window.onload = positionContent;
+window.onload = jqOnLoad;
