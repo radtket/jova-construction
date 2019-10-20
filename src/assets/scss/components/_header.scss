@@ -83,10 +83,7 @@ $header-button--z-index: 800;
 
   .card-container {
     &.home {
-      .btn-previous {
-        display: none;
-      }
-
+      .btn-previous,
       .btn-next {
         display: none;
       }

@@ -2,6 +2,11 @@
   position: relative;
   z-index: 10;
 
+  h2,
+  h3 {
+    margin: 0;
+  }
+
   > div {
     @include transition(width 0.75s ease-in-out);
     background: $c-white;
@@ -146,19 +151,12 @@
 
   // Pages
   &.home {
+    @include position(absolute, 50% null null 50%);
     cursor: default;
-    left: 50%;
     margin-left: -278px;
     margin-top: -168px;
-    position: absolute;
-    top: 50%;
     width: 557px;
     z-index: 50;
-
-    h2,
-    h3 {
-      margin: 0;
-    }
 
     h2 {
       position: relative;
@@ -176,7 +174,7 @@
         border-bottom: 1px solid transparent;
         color: $color-rangoon-green;
         display: block;
-        font-family: $font-0, $font-1;
+        font-family: $font-family-oswald;
         font-size: 13px;
         margin: 13px 20px;
         text-transform: uppercase;
@@ -197,7 +195,7 @@
 
       > span {
         display: block;
-        font-family: $font-0, $font-1;
+        font-family: $font-family-oswald;
         font-size: 14px;
         letter-spacing: 0.65em;
         line-height: 40px;
@@ -220,7 +218,7 @@
     }
 
     .menu {
-      margin: 0 59px;
+      margin: 0 $slider-buttons-width;
       overflow: hidden;
 
       > li {
@@ -247,7 +245,7 @@
             .small {
               @include position(absolute, 7px null null 10px);
               display: block;
-              font-family: $font-0, $font-1;
+              font-family: $font-family-oswald;
               font-size: 8px;
               letter-spacing: 0.1em;
               text-transform: uppercase;
@@ -269,7 +267,7 @@
 
               > span {
                 display: block;
-                font-family: $font-2;
+                font-family: $font-family-anonymous;
                 font-size: 17px;
                 padding: 15px 0 0;
                 white-space: nowrap;
@@ -359,20 +357,18 @@
     }
 
     .btn-previous {
+      @include position(absolute, null null 0 0);
       background: $url-1 repeat-x center 54px;
-      bottom: 0;
       display: block;
       height: 130px;
-      left: 0;
-      position: absolute;
-      width: 59px;
+      width: $slider-buttons-width;
 
       .small {
         @include transition(color 0.45s ease-in-out 1.25s);
         @include position(absolute, 7px null null 10px);
         color: transparent;
         display: block;
-        font-family: $font-0, $font-1;
+        font-family: $font-family-oswald;
         font-size: 8px;
         letter-spacing: 0.1em;
         position: absolute;
@@ -385,20 +381,18 @@
     }
 
     .btn-next {
+      @include position(absolute, null 0 0 null);
       background: $url-2 repeat-x center 54px;
-      bottom: 0;
       display: block;
       height: 130px;
-      position: absolute;
-      right: 0;
-      width: 59px;
+      width: $slider-buttons-width;
 
       .small {
         @include position(absolute, 7px null null 10px);
         @include transition(color 0.45s ease-in-out 1.25s);
         color: transparent;
         display: block;
-        font-family: $font-0, $font-1;
+        font-family: $font-family-oswald;
         font-size: 8px;
         letter-spacing: 0.1em;
         text-transform: uppercase;

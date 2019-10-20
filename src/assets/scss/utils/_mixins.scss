@@ -49,3 +49,15 @@
 
 // - Short - //
 // transition: color 0.45s ease-in-out 1.35s;
+
+@mixin clearfix {
+  &::before,
+  &::after {
+    content: '';
+    display: table;
+  }
+
+  &::after {
+    clear: both;
+  }
+}

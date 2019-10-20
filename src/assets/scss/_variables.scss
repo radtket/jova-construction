@@ -61,17 +61,43 @@ $default-transition-timing: ease-in-out;
 $default-transition: $base-transition-duration $default-transition-timing;
 
 // Images
-$font-0: 'Oswald';
-$font-1: sans-serif;
-$font-2: 'Anonymous Pro', monospace;
-$font-3: 'Roboto Condensed';
+$font-sans-serif: sans-serif;
+$font-family-oswald: 'Oswald', $font-sans-serif;
+$font-family-anonymous: 'Anonymous Pro', monospace;
+$font-family-roboto: 'Roboto Condensed', $font-sans-serif;
+
+// Buttons
+$slider-buttons-width: 59px;
+
+$url-0: url('../images/layout/gallery_share-icons.png');
 $url-1: url('../images/layout/header_btn-previous.png');
 $url-2: url('../images/layout/header_btn-next.png');
+$url-3: url('../images/layout/gallery_cursor.png');
 $url-4: url('../images/layout/header_logo.png');
 $url-5: url('../images/layout/icon_1-small-dark.png');
+$url-6: url('../images/layout/btn_arrow.png');
+$url-7: url('../images/layout/btn_arrow-inverted.png');
 $url-8: url('../images/layout/home_btn-scroll-down.png');
 $url-9: url('../images/layout/about_btn-scroll-down.png');
 $url-10: url('../images/layout/header_btn-menu.png');
 $url-11: url('../images/layout/header_btn-menu-txt.png');
 $url-12: url('../images/layout/header_bg.png');
 $url-13: url('../images/layout/header_cursor.png');
+$url-14: url('../images/layout/icon_1.png');
+$url-15: url('../images/layout/home_signature.png');
+$url-31: url('../images/layout/footer_separator.png');
+$url-32: url('../images/layout/footer_logo.png');
+
+%extend-2 {
+  @include transition(opacity 0.45s ease-in-out 1.25s);
+  display: block;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  position: relative;
+}
+
+%extend-5 {
+  font-family: $font-family-anonymous;
+  font-size: 14px;
+  line-height: 28px;
+}

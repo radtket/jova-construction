@@ -22,10 +22,14 @@ p {
   margin: 0 0 $small-spacing;
 }
 
+a,
+a span {
+  @include transition(color, border-color, background, opacity);
+}
+
 a {
   color: $action-color;
   text-decoration-skip: ink;
-  transition: color $base-transition-duration $base-transition-timing;
 
   &:hover {
     color: shade($action-color, 25%);

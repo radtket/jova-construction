@@ -1,0 +1,164 @@
+@import '../variables';
+
+.btn-arrow {
+  border: 3px solid $c-white;
+  color: $c-white;
+  display: block;
+  float: left;
+  font-family: $font-family-anonymous;
+  position: relative;
+
+  .txt {
+    border-right: 2px solid $c-white;
+    display: block;
+    height: 65px;
+    margin-right: $slider-buttons-width;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+
+    .big {
+      @include transition(margin-top 0.45s ease-in-out, background 0.45s ease-in-out);
+      display: block;
+      min-width: 115px;
+      padding: 15px 25px 0;
+
+      > span {
+        display: block;
+        font-size: 15px;
+        line-height: 50px;
+        white-space: nowrap;
+      }
+    }
+
+    .small {
+      @include position(absolute, 7px null null 10px);
+      display: block;
+      font-family: $font-family-oswald;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+  }
+
+  .bg {
+    @include position(absolute, 0 0 null null);
+    background: $url-6 repeat-x 0 center;
+    display: block;
+    height: 100%;
+    width: $slider-buttons-width;
+  }
+
+  &.inverted {
+    border-color: $color-twine;
+    color: $color-twine;
+
+    .txt {
+      border-color: $color-twine;
+    }
+
+    .bg {
+      background-image: $url-7;
+    }
+  }
+
+  &:hover {
+    .bg {
+      background-position: $slider-buttons-width center;
+    }
+  }
+}
+
+.btn-scroll-down {
+  @include transition(opacity 0.55s ease-in-out, bottom 0.55s ease-in-out);
+  bottom: -80px;
+  display: block;
+  left: 50%;
+  margin-left: -40px;
+  position: fixed;
+  z-index: 820;
+
+  > {
+    .bg {
+      background: $c-black;
+      display: block;
+      filter: alpha(opacity=25);
+      height: 80px;
+      opacity: 0.25;
+      position: relative;
+      width: 80px;
+    }
+
+    .icon {
+      @include transition(background 0.45s ease-in-out);
+      @include position(absolute, 0 null null 0);
+      @include size(62px);
+      background: $url-8 repeat-y center center;
+      border: 2px solid $color-twine;
+      display: block;
+      margin: 7px;
+      z-index: 1;
+    }
+  }
+
+  &.about {
+    left: 0;
+    margin-left: -15px;
+
+    @media (max-width: 1380px) {
+      margin-left: -10px;
+    }
+
+    > {
+      .bg {
+        background: $c-white;
+        filter: alpha(opacity=100);
+        opacity: 1;
+      }
+
+      .icon {
+        background-image: $url-9;
+        border-color: $color-rangoon-green;
+      }
+    }
+  }
+
+  &.loaded {
+    bottom: 65px;
+  }
+
+  &.hidden {
+    filter: alpha(opacity=0);
+    opacity: 0;
+  }
+
+  &:hover {
+    > .icon {
+      background-position: center 62px;
+    }
+  }
+}
+
+#btn-lang {
+  background: $c-white;
+  color: $color-rangoon-green;
+  display: block;
+  font-family: $font-family-oswald;
+  font-size: 13px;
+  left: 0;
+  padding: 15px 0;
+  position: fixed;
+  text-align: center;
+  text-transform: uppercase;
+  top: 0;
+  width: 85px;
+  z-index: 830;
+
+  span {
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      border-color: $color-rangoon-green;
+    }
+  }
+}

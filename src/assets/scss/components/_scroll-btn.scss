@@ -1,13 +1,10 @@
 .btn-scroll-down {
+  @include transition(opacity 0.55s ease-in-out, bottom 0.55s ease-in-out);
   bottom: -80px;
   display: block;
   left: 50%;
   margin-left: -40px;
   position: fixed;
-  transition-delay: 0s;
-  transition-duration: 0.55s;
-  transition-property: opacity, bottom;
-  transition-timing-function: 'ease-in-out';
   z-index: 820;
 
   &:hover {
@@ -59,19 +56,15 @@
     }
 
     .icon {
+      @include transition(background 0.45s ease-in-out);
+      @include size(62px);
       background: $url-8 repeat-y center center;
       border: 2px solid $color-twine;
       display: block;
-      height: 62px;
       left: 0;
       margin: 7px;
       position: absolute;
       top: 0;
-      transition-delay: 0s;
-      transition-duration: 0.45s;
-      transition-property: background;
-      transition-timing-function: 'ease-in-out';
-      width: 62px;
       z-index: 1;
     }
   }

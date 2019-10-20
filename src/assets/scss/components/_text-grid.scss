@@ -1,0 +1,60 @@
+@import '../variables';
+
+.text-grid {
+  position: relative;
+
+  > .line {
+    margin-bottom: 20px;
+    margin-left: -4.5%;
+    overflow: hidden;
+    width: 100%;
+
+    &.loaded {
+      > div {
+        > span {
+          padding-top: 0;
+        }
+      }
+    }
+
+    > div {
+      float: left;
+      height: 100px;
+      position: relative;
+      width: 9.09%;
+
+      > span {
+        @include transition(padding-top 0.45s ease-in-out);
+        color: $color-twine;
+        display: block;
+        font-family: $font-family-oswald;
+        font-size: 70px;
+        left: 0;
+        line-height: 100px;
+        margin-top: -50px;
+        padding-top: 100%;
+        position: absolute;
+        text-align: center;
+        text-transform: uppercase;
+        top: 50%;
+        width: 100%;
+
+        @media (max-width: 1380px) {
+          font-size: 50px;
+        }
+      }
+
+      &.white > span {
+        color: $color-mercury;
+      }
+
+      @for $i from 1 through 10 {
+        &:nth-child(#{$i + 1}) {
+          > span {
+            transition-delay: $i * 0.1s;
+          }
+        }
+      }
+    }
+  }
+}
