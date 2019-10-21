@@ -1,0 +1,109 @@
+.framed-block {
+  position: relative;
+
+  &.loaded {
+    .border,
+    .frame {
+      > div {
+        height: 100% !important;
+        width: 100% !important;
+      }
+    }
+  }
+
+  .frame,
+  .border {
+    position: absolute;
+
+    > div {
+      @include transition(width 0.75s, height 0.75s);
+      overflow: hidden;
+      position: absolute;
+    }
+
+    &.top {
+      left: 0;
+      top: 0;
+      width: 100%;
+
+      > div {
+        @include size(0, 100%);
+        left: 0;
+        top: 0;
+      }
+    }
+
+    &.right {
+      height: 100%;
+      right: 0;
+      top: 0;
+
+      > div {
+        @include size(100%, 0);
+        left: 0;
+        top: 0;
+      }
+    }
+
+    &.bottom {
+      bottom: 0;
+      right: 0;
+      width: 100%;
+
+      > div {
+        @include size(0, 100%);
+        right: 0;
+        top: 0;
+      }
+    }
+
+    &.left {
+      bottom: 0;
+      height: 100%;
+      left: 0;
+
+      > div {
+        @include size(100%, 0);
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+
+  .frame {
+    > div {
+      background: $color-rangoon-green;
+    }
+
+    &.left,
+    &.right {
+      width: 4px;
+    }
+
+    &.top,
+    &.bottom {
+      height: 4px;
+    }
+  }
+
+  .border {
+    > div {
+      background: $color-chicago;
+    }
+
+    &.top,
+    &.bottom {
+      height: 1px;
+    }
+
+    &.left,
+    &.right {
+      width: 1px;
+    }
+  }
+
+  > .content {
+    padding: 4px;
+    position: relative;
+  }
+}

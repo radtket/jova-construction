@@ -1,0 +1,5 @@
+.parallax-icon {
+  @include size($parallax-icon-size);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}

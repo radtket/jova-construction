@@ -20,10 +20,13 @@
 @import 'components/text-grid';
 @import 'components/buttons';
 @import 'components/footer';
+@import 'components/framed-block';
+@import 'components/parallax-icon';
 
 // Pages
 @import 'pages/about';
 @import 'pages/home';
+@import 'pages/tips';
 
 .full-height {
   height: 100vh;
@@ -47,3 +50,9 @@
 #gallery {
   z-index: 500;
 }
+
+// #wrapper {
+// 	&.tips {
+
+// 	}
+// }

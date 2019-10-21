@@ -165,7 +165,8 @@ export const getOffsetTop = elem => {
 	let distance = 0;
 
 	// Loop up the DOM
-	if (elem.offsetParent) {
+
+	if (elem && elem.offsetParent) {
 		do {
 			distance += elem.offsetTop;
 			elem = elem.offsetParent;

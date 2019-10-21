@@ -31,7 +31,6 @@
         }
 
         .icon-2 {
-          @include size($parallax-icon-size);
           background: $url-14 no-repeat 0 0;
           bottom: 275px;
           left: -33.33%;
@@ -40,7 +39,6 @@
         }
 
         .icon-1 {
-          @include size($parallax-icon-size);
           background: $url-14 no-repeat 0 0;
           position: absolute;
           right: -$parallax-icon-size / 2;

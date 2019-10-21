@@ -23,6 +23,8 @@ $parallax-icon-size: 30px;
 
 // Colors: Base
 $c-black: #000;
+$c-black-10: rgba($c-black, 0.1);
+$c-black-30: rgba($c-black, 0.3);
 $c-white: #fff;
 
 // Colors: Theme
@@ -91,6 +93,9 @@ $url-12: url('../images/layout/header_bg.png');
 $url-13: url('../images/layout/header_cursor.png');
 $url-14: url('../images/layout/icon_1.png');
 $url-15: url('../images/layout/home_signature.png');
+$url-23: url('../images/layout/tips_btn-tools.png');
+$url-24: url('../images/layout/tips_btn-arrow.png');
+$url-25: url('../images/layout/bullet_dash-white.png');
 $url-31: url('../images/layout/footer_separator.png');
 $url-32: url('../images/layout/footer_logo.png');
 
