@@ -7,7 +7,7 @@ import {
 	scrollIt,
 	getOffsetTop,
 } from './helpers';
-import InfiniteSlider from './jquery/infiniteSlider';
+import InfiniteSliderHome from './jquery/infiniteSliderHome';
 import $ from 'jquery';
 
 // Elements
@@ -17,7 +17,6 @@ const scrollButton = document.querySelector('.btn-scroll-down');
 const $wrapper = document.querySelector('#wrapper');
 const $footer = document.querySelector('#footer');
 const $body = document.querySelector('body');
-const $html = document.querySelector('html');
 let isAnimationRunning = false;
 
 /* Feature detection */
@@ -79,7 +78,7 @@ const initHome = () =>
 		}, 1500);
 	}, 750);
 
-const infiniteSliderSquares = new InfiniteSlider(
+const infiniteSliderSquares = new InfiniteSliderHome(
 	$('#slider-container-squares'),
 	2000,
 	6000,
@@ -103,9 +102,7 @@ const scrollSliderSquares = () => {
 	sliderSquares.querySelector('.slider').style.top = `${-sliderPos * 0.75}px`;
 
 	// Homepage Blur
-	const activeSquare = sliderSquares.querySelectorAll('.blur');
-
-	Array.from(activeSquare).forEach(item => {
+	Array.from(sliderSquares.querySelectorAll('.blur')).forEach(item => {
 		item.style.opacity = (newScroll * 1.5) / windowHeight;
 	});
 };
@@ -184,6 +181,36 @@ const initToLoad = () => {
 			item.classList.remove('loaded');
 		}
 	});
+
+	// Slider Arrows in Header
+	Array.from(
+		document.querySelectorAll(
+			'.card-container.home .btn-previous, .card-container.home .btn-next'
+		)
+	).forEach(btn => {
+		btn.addEventListener('click', e => {
+			e.preventDefault();
+			const btnDirection = btn.className.split('-')[1];
+			const currentScroll = window.scrollY;
+			const delay = currentScroll > 0 ? 750 : 1;
+
+			if (currentScroll > 0) {
+				anime({
+					targets: ['html', 'body'],
+					scrollTop: 0,
+					easing: 'easeInOutQuad',
+				});
+			}
+
+			setTimeout(() => {
+				document
+					.querySelector(
+						`#slider-container-squares .slider-arrows .${btnDirection} a`
+					)
+					.click();
+			}, delay);
+		});
+	});
 };
 
 function scrollContent() {
@@ -198,11 +225,13 @@ function scrollContent() {
 
 	if (infiniteSliderSquares.running !== undefined) {
 		if (isPastTopOfWindow && infiniteSliderSquares.running) {
-			infiniteSliderSquares.stop();
+			infiniteSliderSquares.running = false;
+			// infiniteSliderSquares.stop();
 		}
 
 		if (!isPastTopOfWindow && !infiniteSliderSquares.running) {
-			infiniteSliderSquares.start();
+			infiniteSliderSquares.running = true;
+			// infiniteSliderSquares.start();
 		}
 	}
 

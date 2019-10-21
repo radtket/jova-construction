@@ -23,29 +23,29 @@
       position: relative;
       width: 9.09%;
 
+      &.white {
+        > span {
+          color: $color-mercury;
+        }
+      }
+
       > span {
+        @include position(absolute, 50% null null 0);
         @include transition(padding-top 0.45s ease-in-out);
         color: $color-twine;
         display: block;
         font-family: $font-family-oswald;
         font-size: 70px;
-        left: 0;
         line-height: 100px;
         margin-top: -50px;
         padding-top: 100%;
-        position: absolute;
         text-align: center;
         text-transform: uppercase;
-        top: 50%;
         width: 100%;
 
         @media (max-width: 1380px) {
           font-size: 50px;
         }
-      }
-
-      &.white > span {
-        color: $color-mercury;
       }
 
       @for $i from 1 through 10 {

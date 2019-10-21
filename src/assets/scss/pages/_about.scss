@@ -1,0 +1,23 @@
+.about {
+  &.btn-scroll-down {
+    left: 0;
+    margin-left: -15px;
+
+    @media (max-width: 1380px) {
+      margin-left: -10px;
+    }
+
+    > {
+      .bg {
+        background: $c-white;
+        filter: alpha(opacity=100);
+        opacity: 1;
+      }
+
+      .icon {
+        background-image: $url-9;
+        border-color: $color-rangoon-green;
+      }
+    }
+  }
+}

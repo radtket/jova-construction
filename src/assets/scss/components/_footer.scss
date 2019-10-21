@@ -1,9 +1,7 @@
 #footer {
+  @include position(fixed, null null 0 0);
   background: $c-white;
-  bottom: 0;
-  left: 0;
   min-width: 980px;
-  position: fixed;
   width: 100%;
   z-index: 500;
 
@@ -40,14 +38,9 @@
           padding: 30px 25px;
 
           h2 {
+            @include position(absolute, 7px 10px null null);
+            @extend %font-style-3;
             display: block;
-            font-family: $font-family-oswald;
-            font-size: 8px;
-            left: 10px;
-            letter-spacing: 0.1em;
-            position: absolute;
-            text-transform: uppercase;
-            top: 7px;
           }
         }
 
@@ -64,10 +57,6 @@
               font-family: $font-family-anonymous;
               font-size: 20px;
               white-space: nowrap;
-
-              @media (max-width: 1380px) {
-                font-size: 20px;
-              }
             }
           }
         }
@@ -79,11 +68,20 @@
             padding-bottom: 0;
           }
 
-          > div > p {
-            @extend %extend-5;
+          > div {
+            > p {
+              + a {
+                margin-top: 30px;
+              }
+            }
+          }
+        }
 
-            + a {
-              margin-top: 30px;
+        &:nth-child(2),
+        &:nth-child(3) {
+          > div {
+            > p {
+              @extend %font-style-2;
             }
           }
         }
@@ -97,6 +95,12 @@
           }
 
           > div {
+            > p {
+              + a {
+                margin-top: 30px;
+              }
+            }
+
             @media (max-width: 1380px) {
               position: relative;
 
@@ -106,14 +110,6 @@
 
               a {
                 @include position(absolute, 12px 25px null null);
-              }
-            }
-
-            > p {
-              @extend %extend-5;
-
-              + a {
-                margin-top: 30px;
               }
             }
           }
@@ -173,19 +169,19 @@
       }
     }
 
-    .copyright {
-      bottom: 33px;
-      font-family: $font-family-roboto;
-      font-size: 13px;
-      left: 0;
-      position: absolute;
-    }
-
+    .copyright,
     .credits {
       bottom: 33px;
       font-family: $font-family-roboto;
       font-size: 13px;
       position: absolute;
+    }
+
+    .copyright {
+      left: 0;
+    }
+
+    .credits {
       right: 0;
 
       a {

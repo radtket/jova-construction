@@ -48,3 +48,22 @@ hr {
   border-top: 0;
   margin: $base-spacing 0;
 }
+
+%font-style-1 {
+  font-family: $font-family-oswald;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+%font-style-2 {
+  font-family: $font-family-anonymous;
+  font-size: 14px;
+  line-height: 28px;
+}
+
+%font-style-3 {
+  font-family: $font-family-oswald;
+  font-size: 8px;
+  letter-spacing: $letter-spacing-base;
+  text-transform: uppercase;
+}

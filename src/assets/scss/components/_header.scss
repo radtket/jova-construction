@@ -6,6 +6,22 @@ $header-button--height: 178px;
 $header-button--width: $header-button--height - $header-button-text--height; // 84px
 $header-button--z-index: 800;
 
+#header {
+  @include position(fixed, 0 null null 0);
+  @include size(100%);
+  background: $url-12;
+  cursor: $url-13 21 21, auto;
+  // display: none;
+  opacity: 0;
+  transition: opacity 750ms;
+
+  &.opened {
+    display: block;
+    opacity: 1;
+    z-index: 825;
+  }
+}
+
 #header_btn-menu {
   @include size($header-button--width, $header-button--height);
   @include position(fixed, 50% null null (-$header-button--width));
@@ -61,49 +77,6 @@ $header-button--z-index: 800;
         text-indent: -5000px;
         transform: rotatey(90deg);
         transform-origin: inherit;
-      }
-    }
-  }
-}
-
-#header {
-  @include position(fixed, 0 null null 0);
-  @include size(100%);
-  background: $url-12;
-  cursor: $url-13 21 21, auto;
-  // display: none;
-  opacity: 0;
-  transition: opacity 750ms;
-
-  &.opened {
-    display: block;
-    opacity: 1;
-    z-index: 825;
-  }
-
-  .card-container {
-    &.home {
-      .btn-previous,
-      .btn-next {
-        display: none;
-      }
-
-      .menu {
-        margin: 0;
-
-        > li > a {
-          .big {
-            padding-left: 25px;
-            text-align: left;
-          }
-
-          > span {
-            &::before {
-              padding: 0 25px;
-              text-align: left;
-            }
-          }
-        }
       }
     }
   }
