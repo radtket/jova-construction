@@ -1,5 +1,6 @@
-import $ from './easing';
 import autoBind from 'auto-bind';
+import anime from 'animejs/lib/anime.es.js';
+import $ from './easing';
 import {
 	addClass,
 	hasClass,
@@ -8,7 +9,6 @@ import {
 	hide,
 	fadeIn,
 } from '../helpers';
-import anime from 'animejs/lib/anime.es.js';
 
 class InfiniteSlider {
 	constructor(
@@ -283,11 +283,11 @@ class InfiniteSlider {
 							.height(imgWidth / bgMainRatio)
 							.css(
 								'left',
-								-(backgroundNain.width() / 2 - wrapperWidth / 2) + 'px'
+								`${-(backgroundNain.width() / 2 - wrapperWidth / 2)}px`
 							)
 							.css(
 								'top',
-								-(backgroundNain.height() / 2 - wrapperHeight / 2) + 'px'
+								`${-(backgroundNain.height() / 2 - wrapperHeight / 2)}px`
 							);
 
 						backgroundNain
@@ -296,11 +296,11 @@ class InfiniteSlider {
 							.height(imgWidth / bgMainRatio)
 							.css(
 								'left',
-								-(backgroundNain.width() / 2 - wrapperWidth / 2) + 'px'
+								`${-(backgroundNain.width() / 2 - wrapperWidth / 2)}px`
 							)
 							.css(
 								'top',
-								-(backgroundNain.height() / 2 - wrapperHeight / 2) + 'px'
+								`${-(backgroundNain.height() / 2 - wrapperHeight / 2)}px`
 							);
 					} else {
 						// Calculate Width depending on ColWidth
@@ -320,11 +320,11 @@ class InfiniteSlider {
 								.height(imgWidth / bgMainRatio)
 								.css(
 									'left',
-									-(backgroundNain.width() / 2 - wrapperWidth / 2) + 'px'
+									`${-(backgroundNain.width() / 2 - wrapperWidth / 2)}px`
 								)
 								.css(
 									'top',
-									-(backgroundNain.height() / 2 - wrapperHeight / 2) + 'px'
+									`${-(backgroundNain.height() / 2 - wrapperHeight / 2)}px`
 								);
 
 						// Resize Containers
@@ -347,7 +347,7 @@ class InfiniteSlider {
 
 			$(infos).css(
 				'top',
-				$(container).height() / 2 - $(infos).height() / 2 + 'px'
+				`${$(container).height() / 2 - $(infos).height() / 2}px`
 			);
 
 			start();
@@ -455,7 +455,7 @@ class InfiniteSlider {
 
 			anime({
 				targets: listItemClickedd,
-				[pos]: opperator + `${size}${this[widthOrHeight]}`,
+				[pos]: `${opperator}${size}${this[widthOrHeight]}`,
 				...options,
 			});
 		};

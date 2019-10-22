@@ -1,5 +1,6 @@
 import imagesLoaded from 'imagesLoaded';
 import anime from 'animejs/lib/anime.es.js';
+import $ from 'jquery';
 import {
 	addClass,
 	isLoaded,
@@ -9,7 +10,6 @@ import {
 } from './helpers';
 import InfiniteSlider from './jquery/infiniteSlider';
 import InfiniteSliderHome from './jquery/infiniteSliderHome';
-import $ from 'jquery';
 
 // Elements
 const $btnHeader = document.querySelector('#header_btn-menu');
@@ -28,7 +28,7 @@ try {
 		'test',
 		null,
 		Object.defineProperty({}, 'passive', {
-			get: function() {
+			get() {
 				passiveIfSupported = { passive: false };
 			},
 		})
@@ -169,14 +169,15 @@ const scrollSliderSquares = () => {
 	const sliderOffset = getOffsetTop(noSlider);
 	const sliderPos =
 		newScroll + windowHeight > sliderOffset ? sliderOffset - scrollHeight : 0;
+	if (sliderSquares) {
+		sliderSquares.style.top = `${sliderPos}px`;
+		sliderSquares.querySelector('.slider').style.top = `${-sliderPos * 0.75}px`;
 
-	sliderSquares.style.top = `${sliderPos}px`;
-	sliderSquares.querySelector('.slider').style.top = `${-sliderPos * 0.75}px`;
-
-	// Homepage Blur
-	Array.from(sliderSquares.querySelectorAll('.blur')).forEach(item => {
-		item.style.opacity = (newScroll * 1.5) / windowHeight;
-	});
+		// Homepage Blur
+		Array.from(sliderSquares.querySelectorAll('.blur')).forEach(item => {
+			item.style.opacity = (newScroll * 1.5) / windowHeight;
+		});
+	}
 };
 
 // Parallax Icons
@@ -299,13 +300,11 @@ function scrollContent() {
 
 	if (infiniteSliderSquares.running !== undefined) {
 		if (isPastTopOfWindow && infiniteSliderSquares.running) {
-			infiniteSliderSquares.running = false;
-			// infiniteSliderSquares.stop();
+			infiniteSliderSquares.stop();
 		}
 
 		if (!isPastTopOfWindow && !infiniteSliderSquares.running) {
-			infiniteSliderSquares.running = true;
-			// infiniteSliderSquares.start();
+			infiniteSliderSquares.start();
 		}
 	}
 
@@ -323,8 +322,8 @@ function scrollContent() {
 			: newScroll;
 
 	sidebar.css({
-		transform: 'translate(0, ' + sidebarTransform + 'px)',
-		'-webkit-transform': 'translate(0, ' + sidebarTransform + 'px)',
+		transform: `translate(0, ${sidebarTransform}px)`,
+		'-webkit-transform': `translate(0, ${sidebarTransform}px)`,
 	});
 
 	const tipsListing = $('#tips #block1 .listing');

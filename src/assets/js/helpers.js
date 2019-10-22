@@ -1,5 +1,5 @@
 export const hasClass = (target, className) => {
-	return new RegExp('(\\s|^)' + className + '(\\s|$)').test(target.className);
+	return new RegExp(`(\\s|^)${className}(\\s|$)`).test(target.className);
 };
 
 export const addClass = (ele, myClass) => {
@@ -22,9 +22,9 @@ export const addClass = (ele, myClass) => {
 	// add class to all chosen elements
 	for (let i = 0; i < elements.length; i += 1) {
 		// if class is not already found
-		if ((' ' + elements[i].className + ' ').indexOf(' ' + myClass + ' ') < 0) {
+		if (` ${elements[i].className} `.indexOf(` ${myClass} `) < 0) {
 			// add class
-			elements[i].className += ' ' + myClass;
+			elements[i].className += ` ${myClass}`;
 		}
 	}
 };
@@ -50,7 +50,7 @@ export function fadeIn(el, display) {
 	element.style.display = display || 'block';
 
 	(function fade() {
-		var val = parseFloat(element.style.opacity);
+		let val = parseFloat(element.style.opacity);
 		if (!((val += 0.1) > 1)) {
 			element.style.opacity = val;
 			requestAnimationFrame(fade);

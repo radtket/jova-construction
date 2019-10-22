@@ -95,8 +95,8 @@ $.extend($.easing, {
 	},
 	easeInElastic(f, h, e, l, k) {
 		var i = 1.70158;
-		var j = 0;
-		var g = l;
+		let j = 0;
+		let g = l;
 		if (h == 0) {
 			return e;
 		}
@@ -123,8 +123,8 @@ $.extend($.easing, {
 	},
 	easeOutElastic(f, h, e, l, k) {
 		var i = 1.70158;
-		var j = 0;
-		var g = l;
+		let j = 0;
+		let g = l;
 		if (h == 0) {
 			return e;
 		}
@@ -148,8 +148,8 @@ $.extend($.easing, {
 	},
 	easeInOutElastic(f, h, e, l, k) {
 		var i = 1.70158;
-		var j = 0;
-		var g = l;
+		let j = 0;
+		let g = l;
 		if (h == 0) {
 			return e;
 		}
