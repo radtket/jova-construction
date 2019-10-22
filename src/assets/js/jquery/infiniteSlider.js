@@ -1,5 +1,15 @@
 import $ from './easing';
 import autoBind from 'auto-bind';
+import {
+	addClass,
+	hasClass,
+	getElementIndex,
+	show,
+	hide,
+	fadeIn,
+} from '../helpers';
+import anime from 'animejs/lib/anime.es.js';
+
 class InfiniteSlider {
 	constructor(
 		wrapperArg,
@@ -18,23 +28,23 @@ class InfiniteSlider {
 		this.running = true;
 		this.t = null;
 		// Setting the container and controller
-		this.wrapper = $(wrapperArg);
-		this.container = $('.slider', this.wrapper);
-		this.arrows = $('.slider-arrows', this.wrapper);
-		this.count = $('.count', this.arrows);
-		this.controls = $('.slider-controls', this.wrapper);
-		this.infos = $('.slider-infos', this.wrapper);
+		this.wrapper = wrapperArg;
+		this.container = this.wrapper.querySelector('.slider');
+		this.arrows = this.wrapper.querySelector('.slider-arrows');
+		this.count = this.arrows.querySelector('.count');
+		this.controls = this.wrapper.querySelector('.slider-controls');
+		this.infos = this.wrapper.querySelector('.slider-infos');
 		this.speed = speedArg;
 		this.duration = durationArg;
 		this.mode = modeArg; // slide - slidev - fade - demask
 		this.easing = easingArg;
-		this.width = this.container.width();
-		this.height = this.container.height();
+		this.width = this.container.offsetWidth;
+		this.height = this.container.offsetHeight;
 		// Setting index : slide ordered index || indexSlide : slide real index
 		this.index = 0;
 		this.indexSlide = 0;
 		// Number of elements
-		this.length = $('li', this.container).length - 1;
+		this.length = Array.from(this.container.querySelectorAll('li')).length - 1;
 		autoBind(this);
 		this.init();
 	}
@@ -57,37 +67,36 @@ class InfiniteSlider {
 		} = this;
 
 		// Identify each slide and control with initial order
-		$('> ul > li', container).each(function() {
-			const i = $(this).index();
+		const listItems = container.querySelectorAll('ul > li');
+		const controlsListItems = controls.querySelectorAll('li');
+
+		Array.from(listItems).forEach((item, i) => {
 			const slideIndex = i + 1;
 			const isActive = i === 0 ? 'active' : 'inactive';
-			const template = `<li class="${isActive}" data-slide="${slideIndex}"><a href="">Slide ${slideIndex}</a></li>`;
-			$(this).attr('data-slide', slideIndex);
-			$(this).addClass(isActive);
-			$(controls).append(template);
+			item.setAttribute('data-slide', slideIndex);
+			addClass(item, isActive);
+			controls.innerHTML += `<li class="${isActive}" data-slide="${slideIndex}"><a href="">Slide ${slideIndex}</a></li>`;
 		});
 
-		$('li', controls).each(function() {
-			const i = $(this).index();
+		Array.from(controlsListItems).forEach((item, i) => {
 			const slideIndex = i + 1;
 			const isActive = i === 0 ? 'active' : 'inactive';
-
-			$(this).attr('data-slide', slideIndex);
-			$(this).addClass(isActive);
+			item.setAttribute('data-slide', slideIndex);
+			addClass(item, isActive);
 		});
 
 		// Fill Count values
-		$(count).html(index + 1 + ' / ' + (length + 1));
+		count.innerHTML += `${index + 1} / ${length + 1}`;
 
 		// Fill First Infos
-
-		if ($('> ul > li:eq(0)', container).attr('data-infos') !== '') {
-			$(infos).html($('> ul > li:eq(0)', container).attr('data-infos'));
-		}
+		// ! TODO
+		// if ($('> ul > li:eq(0)', container).attr('data-infos') !== '') {
+		// 	$(infos).html($('> ul > li:eq(0)', container).attr('data-infos'));
+		// }
 
 		// Disable if just one slide
 		if (length === 0) {
-			$(controls).hide();
+			controls.style.display = 'none';
 			this.autorotation = false;
 		}
 
@@ -96,27 +105,32 @@ class InfiniteSlider {
 
 		// Bind
 		if (hover) {
-			$(wrapper).mouseenter(() => {
+			console.log({ wrapper });
+
+			wrapper.onmouseenter = () => {
 				this.stop();
-			});
-			$(wrapper).mouseleave(() => {
+			};
+
+			wrapper.onmouseleave = () => {
 				this.start();
-			});
+			};
 		}
 
-		$('li a', controls).click(function(e) {
-			e.preventDefault();
-			controlsClick($(this));
+		Array.from(controls.querySelectorAll('li a')).forEach(item => {
+			item.addEventListener('click', e => {
+				e.preventDefault();
+				controlsClick(item);
+			});
 		});
 
-		$('li a', arrows).click(function(e) {
-			e.preventDefault();
-			arrowsClick($(this));
+		Array.from(arrows.querySelectorAll('li a')).forEach(item => {
+			item.addEventListener('click', e => {
+				e.preventDefault();
+				arrowsClick(item);
+			});
 		});
 
-		$(window).resize(() => {
-			reset();
-		});
+		window.onresize = reset;
 
 		// Start Autorotation
 		if (running) {
@@ -136,7 +150,11 @@ class InfiniteSlider {
 			duration,
 		} = this;
 
-		if ($('li', controls).length > 1 && autorotation && running) {
+		if (
+			Array.from(controls.querySelectorAll('li')).length > 1 &&
+			autorotation &&
+			running
+		) {
 			this.t = setTimeout(() => {
 				changeSlide(indexSlide, indexSlide + 1);
 			}, duration);
@@ -159,16 +177,15 @@ class InfiniteSlider {
 		return false;
 	}
 
-	arrowsClick(object) {
+	arrowsClick({ parentElement }) {
 		console.log('arrowsClick');
 		const { animated, changeSlide, indexSlide } = this;
 		if (!animated) {
 			this.autorotation = false;
 			// Stop timer
 			clearTimeout(this.t);
-			const clicked = $(object)
-				.parent()
-				.hasClass('next')
+
+			const clicked = hasClass(parentElement, 'next')
 				? indexSlide + 1
 				: indexSlide - 1;
 
@@ -178,21 +195,24 @@ class InfiniteSlider {
 		return false;
 	}
 
-	controlsClick(object) {
+	controlsClick({ parentElement }) {
 		console.log('controlsClick');
 		const { animated, changeSlide, indexSlide, container } = this;
-		const listItem = $(object).parent();
-		if (!animated && listItem.hasClass('active') === false) {
+
+		if (!animated && !hasClass(parentElement, 'active')) {
 			this.autorotation = false;
 			// Stop timer
 			clearTimeout(this.t);
 
-			const clicked = listItem.index();
+			// const clicked = listItem.index();
+			const clicked = getElementIndex(parentElement);
 
-			$('> ul > li', container).each(function() {
-				const listItemIndex = parseInt($(this).attr('data-slide'), 10);
+			Array.from(container.querySelectorAll('ul > li')).forEach((item, i) => {
+				const listItemIndex = parseInt(item.getAttribute('data-slide'), 10);
 				if (listItemIndex === clicked + 1) {
-					changeSlide(indexSlide, $(this).index());
+					const index = getElementIndex(item);
+					console.log(i, 'vs', index);
+					changeSlide(indexSlide, index);
 				}
 			});
 		}
@@ -203,16 +223,25 @@ class InfiniteSlider {
 	reset() {
 		console.log('reset');
 		const { animated, mode, container, infos, start } = this;
+
 		if (!animated) {
 			this.stop();
-			this.width = container.width();
-			this.height = container.height();
-			$('> ul > li', container).width(this.width);
+			this.width = container.offsetWidth;
+			this.height = container.offsetHeight;
 
+			Array.from(container.querySelectorAll('ul > li')).forEach(item => {
+				item.style.width = `${this.width}px`;
+			});
+			console.log('yoooooo');
 			// Demask Specific
 			if (mode === 'demask') {
-				$('> ul > li.inactive', container).width(0);
-				$('> ul > li > img', container).width(this.width);
+				Array.from(container.querySelectorAll('ul > li')).forEach(item => {
+					if (hasClass(item, 'inactive')) {
+						item.style.width = 0;
+					}
+
+					item.querySelector('img').style.width = `${this.width}px`;
+				});
 			}
 
 			// Columns Specific
@@ -344,7 +373,7 @@ class InfiniteSlider {
 		this.animated = true;
 
 		let direction = 'next';
-		const listItem = $('> ul > li', container);
+		const listItems = Array.from(container.querySelectorAll('ul > li'));
 
 		if (clicked < current) {
 			direction = 'previous';
@@ -358,29 +387,36 @@ class InfiniteSlider {
 		}
 
 		// Redefine active slide
-		listItem.removeClass('active').addClass('inactive');
+		listItems.forEach(item => {
+			if (hasClass(item, 'active')) {
+				item.classList.remove('active');
+			}
+			addClass(item, 'inactive');
+		});
 
-		const listItemClicked = listItem.eq(clicked);
+		const listItemClickedd = listItems[clicked];
 
-		listItemClicked.removeClass('inactive').addClass('active');
+		listItemClickedd.classList.remove('inactive');
+		addClass(listItemClickedd, 'active');
 
-		this.index =
-			parseInt($('> ul > li.active', container).attr('data-slide'), 10) - 1;
+		this.index = parseInt(listItemClickedd.getAttribute('data-slide'), 10) - 1;
 
-		this.indexSlide = $('> ul > li.active', container).index();
+		this.indexSlide = getElementIndex(listItemClickedd);
 
 		// Redefine active control
-		$('li', controls).removeClass('active');
-		$('li', controls)
-			.eq(this.index)
-			.addClass('active');
+		Array.from(controls.querySelectorAll('li')).forEach((item, i) => {
+			if (hasClass(item, 'active')) {
+				item.classList.remove('active');
+			}
+			addClass(item, 'inactive');
+
+			if (i === this.index) {
+				addClass(item, 'active');
+			}
+		});
 
 		// Change Count
-		$(count).html(
-			$('> ul > li.active', container).attr('data-slide') +
-				' / ' +
-				(this.length + 1)
-		);
+		count.innerHTML = `${this.index + 1} / ${this.length + 1}`;
 
 		// Animate Infos
 		$(infos).fadeOut(speed / 2, function() {
@@ -399,9 +435,11 @@ class InfiniteSlider {
 			duration: speed,
 			easing,
 			complete: () => {
-				console.log(this.animated);
 				this.animated = false;
-				$('> ul > li.inactive', container).hide();
+
+				container.querySelectorAll('ul > li.inactive').forEach(item => {
+					hide(item);
+				});
 				if (running) {
 					autoRotation();
 				}
@@ -412,16 +450,15 @@ class InfiniteSlider {
 			const opperator = dir === 'next' ? '-=' : '+=';
 			const size = dir !== 'next' ? '-' : '';
 
-			listItemClicked.css(pos, this[widthOrHeight] + 'px').show();
+			listItemClickedd.style[pos] = `${this[widthOrHeight]}px`;
+			show(listItemClickedd);
 
-			// Animate slides
-			listItem.animate(
-				{ [pos]: opperator + `${size}${this[widthOrHeight]}` },
-				options
-			);
+			anime({
+				targets: listItemClickedd,
+				[pos]: opperator + `${size}${this[widthOrHeight]}`,
+				...options,
+			});
 		};
-
-		const activeListItem = $('> ul > li.active', container);
 
 		const stopAnumation = () => {
 			this.animated = false;
@@ -431,31 +468,48 @@ class InfiniteSlider {
 			}
 		};
 
+		const isActive = container.querySelector('ul > li.active');
+		const listItem = $('> ul > li', container);
 		// Animate Slides
-		if (mode === 'slide') {
-			animateIt('left', 'width', direction);
-		} else if (mode === 'slidev') {
-			animateIt('top', 'height', direction);
-		} else if (mode === 'fade') {
-			// Animate Slides
-			activeListItem.fadeIn(speed, () => {
-				listItem.eq(current).hide();
+		switch (mode) {
+			case 'slide':
+				animateIt('left', 'width', direction);
+				break;
+			case 'slidev':
+				animateIt('top', 'height', direction);
+				break;
+			case 'fade':
+				fadeIn(isActive);
+				hide(listItems[current]);
 				stopAnumation();
-			});
-		} else if (mode === 'demask') {
-			activeListItem.animate({ width: this.width }, speed, easing, () => {
-				$('> ul > li.inactive', container).width(0);
-				stopAnumation();
-			});
-		} else if (mode === 'columns') {
-			const currentColumn = listItem.eq(current).find('.columns > li > div');
-			listItemClicked.css('left', '0');
 
-			currentColumn.animate({ width: 0 }, speed, easing, () => {
-				listItem.eq(current).css('left', '100%');
-				currentColumn.width('100%');
-				stopAnumation();
-			});
+				break;
+			case 'demask':
+				$('> ul > li.active', container).animate(
+					{ width: this.width },
+					speed,
+					easing,
+					() => {
+						listItem.eq(current).hide();
+						$('> ul > li.inactive', container).width(0);
+						stopAnumation();
+					}
+				);
+				break;
+			case 'columns':
+				const currentColumn = listItem.eq(current).find('.columns > li > div');
+
+				listItemClickedd.style.left = 0;
+
+				currentColumn.animate({ width: 0 }, speed, easing, () => {
+					listItem.eq(current).css('left', '100%');
+					currentColumn.width('100%');
+					stopAnumation();
+				});
+				break;
+
+			default:
+			// code block
 		}
 	}
 }

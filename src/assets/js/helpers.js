@@ -176,3 +176,18 @@ export const getOffsetTop = elem => {
 	// Return our distance
 	return distance < 0 ? 0 : distance;
 };
+
+export const getElementIndex = elm => {
+	// return [...elm.parentNode.children].findIndex(c => c === elm);
+	// or
+	return [...elm.parentNode.children].indexOf(elm);
+};
+
+export const show = elem => {
+	elem.style.display = 'block';
+};
+
+// Hide an element
+export const hide = elem => {
+	elem.style.display = 'none';
+};
