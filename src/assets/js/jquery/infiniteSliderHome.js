@@ -1,13 +1,4 @@
-import $ from './easing';
-
-/* ////////////////////////////////////////////////////////////////////////////
-//
-// Infinite Slider
-// V 1.0
-// Alexandra Nantel
-// Last Update 01/11/2012 10:22
-//
-/////////////////////////////////////////////////////////////////////////// */
+import $ from 'jquery';
 
 function InfiniteSliderHome(
 	wrapper,
@@ -18,16 +9,12 @@ function InfiniteSliderHome(
 	hover,
 	animation
 ) {
-	var _infiniteSlider = this;
-
-	// If true : running
+	const $infiniteSlider = this;
 	this.animated = false;
-	// Autorotation
 	this.hover = hover;
 	this.autorotation = animation;
 	this.running = true;
 	this.t;
-	// Setting the container and controller
 	this.wrapper = $(wrapper);
 	this.container = $('.slider', this.wrapper);
 	this.arrows = $('.slider-arrows', this.wrapper);
@@ -36,46 +23,33 @@ function InfiniteSliderHome(
 	this.infos = $('.slider-infos', this.wrapper);
 	this.speed = speed;
 	this.duration = duration;
-	this.mode = mode; // slide - slidev - fade - demask
+	this.mode = mode;
 	this.easing = easing;
 	this.width = this.container.width();
 	this.height = this.container.height();
-	// Setting index : slide ordered index || indexSlide : slide real index
 	this.index = 0;
 	this.indexSlide = 0;
-	// Number of elements
 	this.length = $('li', this.container).length - 1;
 
-	/* Initialize
-	//////////////////////////////////////////////////////////////////////// */
-
-	// Identify each slide and control with initial order
 	$('> ul > li', this.container).each(function() {
 		$(this).attr('data-slide', $(this).index() + 1);
 
 		if ($(this).index() == 0) {
 			$(this).addClass('active');
-			$(_infiniteSlider.controls).append(
-				'<li class="active" data-slide="' +
-					($(this).index() + 1) +
-					'"><a href="">Slide ' +
-					($(this).index() + 1) +
-					'</a></li>'
+			$($infiniteSlider.controls).append(
+				`<li class="active" data-slide="${$(this).index() +
+					1}"><a href="">Slide ${$(this).index() + 1}</a></li>`
 			);
 
-			// Fill Content
 			if ($('#gallery').length == 1) {
 				$('h2 .big').html($(this).attr('data-project-title'));
 				$('.infos .text > div').html($(this).attr('data-project-content'));
 			}
 		} else {
 			$(this).addClass('inactive');
-			$(_infiniteSlider.controls).append(
-				'<li class="inactive" data-slide="' +
-					($(this).index() + 1) +
-					'"><a href="">Slide ' +
-					($(this).index() + 1) +
-					'</a></li>'
+			$($infiniteSlider.controls).append(
+				`<li class="inactive" data-slide="${$(this).index() +
+					1}"><a href="">Slide ${$(this).index() + 1}</a></li>`
 			);
 		}
 	});
@@ -83,156 +57,134 @@ function InfiniteSliderHome(
 	$('li', this.controls).each(function() {
 		$(this).attr('data-slide', $(this).index() + 1);
 
-		if ($(this).index() == 0) $(this).addClass('active');
-		else $(this).addClass('inactive');
+		if ($(this).index() == 0) {
+			$(this).addClass('active');
+		} else {
+			$(this).addClass('inactive');
+		}
 	});
 
-	// Fill Count values
-	$(this.count).html(this.index + 1 + ' / ' + (this.length + 1));
+	$(this.count).html(`${this.index + 1} / ${this.length + 1}`);
 
-	// Fill First Infos
-	if ($('> ul > li:eq(0)', this.container).attr('data-infos') != '')
+	if ($('> ul > li:eq(0)', this.container).attr('data-infos') != '') {
 		$(this.infos).html($('> ul > li:eq(0)', this.container).attr('data-infos'));
+	}
 
-	// Disable if just one slide
 	if (this.length == 0) {
 		$(this.controls).hide();
 		this.autorotation = false;
 	}
 
-	// Initiate Positioning
-	this.reset(_infiniteSlider);
+	this.reset($infiniteSlider);
 
-	// Bind
-	/* if(this.hover){
-		$(this.wrapper).mouseenter(function(){
-			_infiniteSlider.stop(_infiniteSlider);
-		});
-		$(this.wrapper).mouseleave(function(){
-			_infiniteSlider.start(_infiniteSlider);
-		});
-	} */
-
-	$('li a', this.controls).click(function() {
-		_infiniteSlider.controlsClick($(this), _infiniteSlider);
+	$('li a', this.controls).click(function(e) {
+		e.preventDefault();
+		$infiniteSlider.controlsClick($(this), $infiniteSlider);
 
 		return false;
 	});
 
-	$('li a', this.arrows).click(function() {
-		_infiniteSlider.arrowsClick($(this), _infiniteSlider);
+	$('li a', this.arrows).click(function(e) {
+		e.preventDefault();
+		$infiniteSlider.arrowsClick($(this), $infiniteSlider);
 
 		return false;
 	});
 
-	$(window).resize(function() {
-		_infiniteSlider.reset(_infiniteSlider);
+	$(window).resize(() => {
+		$infiniteSlider.reset($infiniteSlider);
 	});
 
 	$(document).keydown(function(event) {
-		// Next
 		if (event.keyCode == 39) $('.slider-arrows .next a').trigger('click');
-		// Previous
+
 		if (event.keyCode == 37) $('.slider-arrows .previous a').trigger('click');
 	});
 
-	// Start Autorotation
-	if ($('#gallery').length == 1) _infiniteSlider.running = false;
-	if (this.running) this.autoRotation(_infiniteSlider);
+	if ($('#gallery').length == 1) $infiniteSlider.running = false;
+	if (this.running) this.autoRotation($infiniteSlider);
 }
 
-/* ////////////////////////////////////////////////////////////////////////////
-//
-// Autorotation
-//
-/////////////////////////////////////////////////////////////////////////// */
+InfiniteSliderHome.prototype.autoRotation = function($infiniteSlider) {
+	clearTimeout($infiniteSlider.t);
 
-InfiniteSliderHome.prototype.autoRotation = function(_infiniteSlider) {
-	clearTimeout(_infiniteSlider.t);
-
-	if ($('#gallery').length == 1) _infiniteSlider.running = false;
+	if ($('#gallery').length == 1) $infiniteSlider.running = false;
 
 	if (
-		$('li', _infiniteSlider.controls).length > 1 &&
-		_infiniteSlider.autorotation
+		$('li', $infiniteSlider.controls).length > 1 &&
+		$infiniteSlider.autorotation
 	) {
-		if (_infiniteSlider.running) {
-			_infiniteSlider.t = setTimeout(function() {
-				_infiniteSlider.changeSlide(
-					_infiniteSlider.indexSlide,
-					_infiniteSlider.indexSlide + 1,
-					_infiniteSlider
+		if ($infiniteSlider.running) {
+			$infiniteSlider.t = setTimeout(function() {
+				$infiniteSlider.changeSlide(
+					$infiniteSlider.indexSlide,
+					$infiniteSlider.indexSlide + 1,
+					$infiniteSlider
 				);
-			}, _infiniteSlider.duration);
+			}, $infiniteSlider.duration);
 		}
 	}
 };
 
-/* ////////////////////////////////////////////////////////////////////////////
-//
-// External Functions
-//
-/////////////////////////////////////////////////////////////////////////// */
-
-InfiniteSliderHome.prototype.start = function(_infiniteSlider) {
-	_infiniteSlider.running = true;
-	_infiniteSlider.autoRotation(_infiniteSlider);
+InfiniteSliderHome.prototype.start = function($infiniteSlider) {
+	$infiniteSlider.running = true;
+	$infiniteSlider.autoRotation($infiniteSlider);
 
 	return false;
 };
 
-InfiniteSliderHome.prototype.stop = function(_infiniteSlider) {
-	clearTimeout(_infiniteSlider.t);
-	_infiniteSlider.running = false;
+InfiniteSliderHome.prototype.stop = function($infiniteSlider) {
+	clearTimeout($infiniteSlider.t);
+	$infiniteSlider.running = false;
 
 	return false;
 };
 
-InfiniteSliderHome.prototype.arrowsClick = function(object, _infiniteSlider) {
-	if (!_infiniteSlider.animated) {
-		// _infiniteSlider.autorotation = false;
-		// Stop timer
-		clearTimeout(_infiniteSlider.t);
-
+InfiniteSliderHome.prototype.arrowsClick = (object, $infiniteSlider) => {
+	if (!$infiniteSlider.animated) {
+		clearTimeout($infiniteSlider.t);
+		let clicked;
 		if (
 			$(object)
 				.parent()
 				.hasClass('next')
-		)
-			var clicked = _infiniteSlider.indexSlide + 1;
-		else var clicked = _infiniteSlider.indexSlide - 1;
+		) {
+			clicked = $infiniteSlider.indexSlide + 1;
+		} else {
+			clicked = $infiniteSlider.indexSlide - 1;
+		}
 
-		_infiniteSlider.changeSlide(
-			_infiniteSlider.indexSlide,
+		$infiniteSlider.changeSlide(
+			$infiniteSlider.indexSlide,
 			clicked,
-			_infiniteSlider
+			$infiniteSlider
 		);
 	}
 
 	return false;
 };
 
-InfiniteSliderHome.prototype.controlsClick = function(object, _infiniteSlider) {
+InfiniteSliderHome.prototype.controlsClick = (object, $infiniteSlider) => {
 	if (
-		!_infiniteSlider.animated &&
+		!$infiniteSlider.animated &&
 		$(object)
 			.parent()
 			.hasClass('active') == false
 	) {
-		_infiniteSlider.autorotation = false;
-		// Stop timer
-		clearTimeout(_infiniteSlider.t);
+		$infiniteSlider.autorotation = false;
 
-		var clicked = $(object)
+		clearTimeout($infiniteSlider.t);
+
+		const clicked = $(object)
 			.parent()
 			.index();
 
-		$('> ul > li', _infiniteSlider.container).each(function() {
+		$('> ul > li', $infiniteSlider.container).each(function() {
 			if ($(this).attr('data-slide') == clicked + 1) {
-				_infiniteSlider.changeSlide(
-					_infiniteSlider.indexSlide,
+				$infiniteSlider.changeSlide(
+					$infiniteSlider.indexSlide,
 					$(this).index(),
-					_infiniteSlider
+					$infiniteSlider
 				);
 			}
 		});
@@ -241,240 +193,220 @@ InfiniteSliderHome.prototype.controlsClick = function(object, _infiniteSlider) {
 	return false;
 };
 
-InfiniteSliderHome.prototype.reset = function(_infiniteSlider) {
-	if (!_infiniteSlider.animated) {
-		_infiniteSlider.stop(_infiniteSlider);
-		_infiniteSlider.width = _infiniteSlider.container.width();
-		_infiniteSlider.height = _infiniteSlider.container.height();
+InfiniteSliderHome.prototype.reset = $infiniteSlider => {
+	if (!$infiniteSlider.animated) {
+		$infiniteSlider.stop($infiniteSlider);
+		$infiniteSlider.width = $infiniteSlider.container.width();
+		$infiniteSlider.height = $infiniteSlider.container.height();
 
-		_infiniteSlider.start(_infiniteSlider);
+		$infiniteSlider.start($infiniteSlider);
 	}
 };
 
-/* ////////////////////////////////////////////////////////////////////////////
-//
-// Change slide
-//
-/////////////////////////////////////////////////////////////////////////// */
-
-InfiniteSliderHome.prototype.changeSlide = function(
+InfiniteSliderHome.prototype.changeSlide = (
 	current,
 	clicked,
-	_infiniteSlider
-) {
-	_infiniteSlider.animated = true;
-	var direction = 'next';
+	$infiniteSlider
+) => {
+	$infiniteSlider.animated = true;
+	let direction = 'next';
 	if (clicked < current) direction = 'previous';
 
-	// Check limits
-	if (clicked > _infiniteSlider.length) {
+	if (clicked > $infiniteSlider.length) {
 		clicked = 0;
 	} else if (clicked < 0) {
-		clicked = _infiniteSlider.length;
+		clicked = $infiniteSlider.length;
 	}
 
-	// Redefine active slide
-	$('> ul > li', _infiniteSlider.container)
+	$('> ul > li', $infiniteSlider.container)
 		.removeClass('active')
 		.addClass('inactive');
-	$('> ul > li', _infiniteSlider.container)
+	$('> ul > li', $infiniteSlider.container)
 		.eq(clicked)
 		.removeClass('inactive')
 		.addClass('active');
 
-	_infiniteSlider.index =
+	$infiniteSlider.index =
 		parseInt(
-			$('> ul > li.active', _infiniteSlider.container).attr('data-slide')
+			$('> ul > li.active', $infiniteSlider.container).attr('data-slide')
 		) - 1;
-	_infiniteSlider.indexSlide = $(
+	$infiniteSlider.indexSlide = $(
 		'> ul > li.active',
-		_infiniteSlider.container
+		$infiniteSlider.container
 	).index();
 
-	// Redefine active control
-	$('li', _infiniteSlider.controls).removeClass('active');
-	$('li', _infiniteSlider.controls)
-		.eq(_infiniteSlider.index)
+	$('li', $infiniteSlider.controls).removeClass('active');
+	$('li', $infiniteSlider.controls)
+		.eq($infiniteSlider.index)
 		.addClass('active');
 
-	// Animate Slides
-	if (_infiniteSlider.mode == 'slide') {
-		// Place new slide AFTER
+	if ($infiniteSlider.mode == 'slide') {
 		if (direction == 'next') {
-			$('> ul > li', _infiniteSlider.container)
+			$('> ul > li', $infiniteSlider.container)
 				.eq(clicked)
-				.css('left', _infiniteSlider.width + 'px')
+				.css('left', `${$infiniteSlider.width}px`)
 				.show();
 
-			// Animate slides
-			$('> ul > li', _infiniteSlider.container).animate(
-				{ left: '-=' + _infiniteSlider.width },
+			$('> ul > li', $infiniteSlider.container).animate(
+				{ left: `-=${$infiniteSlider.width}` },
 				{
-					duration: _infiniteSlider.speed,
-					easing: _infiniteSlider.easing,
-					complete: function() {
-						_infiniteSlider.animated = false;
-						$('> ul > li.inactive', _infiniteSlider.container).hide();
-						if (_infiniteSlider.running)
-							_infiniteSlider.autoRotation(_infiniteSlider);
+					duration: $infiniteSlider.speed,
+					easing: $infiniteSlider.easing,
+					complete() {
+						$infiniteSlider.animated = false;
+						$('> ul > li.inactive', $infiniteSlider.container).hide();
+						if ($infiniteSlider.running)
+							$infiniteSlider.autoRotation($infiniteSlider);
+					},
+				}
+			);
+		} else {
+			$('> ul > li', $infiniteSlider.container)
+				.eq(clicked)
+				.css('left', `${-$infiniteSlider.width}px`)
+				.show();
+
+			$('> ul > li', $infiniteSlider.container).animate(
+				{ left: `+=${$infiniteSlider.width}` },
+				{
+					duration: $infiniteSlider.speed,
+					easing: $infiniteSlider.easing,
+					complete() {
+						$infiniteSlider.animated = false;
+						$('> ul > li.inactive', $infiniteSlider.container).hide();
+						if ($infiniteSlider.running)
+							$infiniteSlider.autoRotation($infiniteSlider);
 					},
 				}
 			);
 		}
-		// Place new slide BEFORE
-		else {
-			$('> ul > li', _infiniteSlider.container)
-				.eq(clicked)
-				.css('left', -_infiniteSlider.width + 'px')
-				.show();
-
-			// Animate slides
-			$('> ul > li', _infiniteSlider.container).animate(
-				{ left: '+=' + _infiniteSlider.width },
-				{
-					duration: _infiniteSlider.speed,
-					easing: _infiniteSlider.easing,
-					complete: function() {
-						_infiniteSlider.animated = false;
-						$('> ul > li.inactive', _infiniteSlider.container).hide();
-						if (_infiniteSlider.running)
-							_infiniteSlider.autoRotation(_infiniteSlider);
-					},
-				}
-			);
-		}
-	} else if (_infiniteSlider.mode == 'slidev') {
-		// Place new slide AFTER
+	} else if ($infiniteSlider.mode == 'slidev') {
 		if (direction == 'next') {
-			$('> ul > li', _infiniteSlider.container)
+			$('> ul > li', $infiniteSlider.container)
 				.eq(clicked)
-				.css('top', _infiniteSlider.height + 'px')
+				.css('top', `${$infiniteSlider.height}px`)
 				.show();
 
-			// Animate slides
-			$('> ul > li', _infiniteSlider.container).animate(
-				{ top: '-=' + _infiniteSlider.height },
+			$('> ul > li', $infiniteSlider.container).animate(
+				{ top: `-=${$infiniteSlider.height}` },
 				{
-					duration: _infiniteSlider.speed,
-					easing: _infiniteSlider.easing,
-					complete: function() {
-						_infiniteSlider.animated = false;
-						$('> ul > li.inactive', _infiniteSlider.container).hide();
-						if (_infiniteSlider.running)
-							_infiniteSlider.autoRotation(_infiniteSlider);
+					duration: $infiniteSlider.speed,
+					easing: $infiniteSlider.easing,
+					complete() {
+						$infiniteSlider.animated = false;
+						$('> ul > li.inactive', $infiniteSlider.container).hide();
+						if ($infiniteSlider.running)
+							$infiniteSlider.autoRotation($infiniteSlider);
+					},
+				}
+			);
+		} else {
+			$('> ul > li', $infiniteSlider.container)
+				.eq(clicked)
+				.css('top', `${-$infiniteSlider.height}px`)
+				.show();
+
+			$('> ul > li', $infiniteSlider.container).animate(
+				{ top: `+=${$infiniteSlider.height}` },
+				{
+					duration: $infiniteSlider.speed,
+					easing: $infiniteSlider.easing,
+					complete() {
+						$infiniteSlider.animated = false;
+						$('> ul > li.inactive', $infiniteSlider.container).hide();
+						if ($infiniteSlider.running) {
+							$infiniteSlider.autoRotation($infiniteSlider);
+						}
 					},
 				}
 			);
 		}
-		// Place new slide BEFORE
-		else {
-			$('> ul > li', _infiniteSlider.container)
-				.eq(clicked)
-				.css('top', -_infiniteSlider.height + 'px')
-				.show();
-
-			// Animate slides
-			$('> ul > li', _infiniteSlider.container).animate(
-				{ top: '+=' + _infiniteSlider.height },
-				{
-					duration: _infiniteSlider.speed,
-					easing: _infiniteSlider.easing,
-					complete: function() {
-						_infiniteSlider.animated = false;
-						$('> ul > li.inactive', _infiniteSlider.container).hide();
-						if (_infiniteSlider.running)
-							_infiniteSlider.autoRotation(_infiniteSlider);
-					},
-				}
-			);
-		}
-	} else if (_infiniteSlider.mode == 'fade') {
-		// Animate Slides
-		$('> ul > li.active', _infiniteSlider.container).fadeIn(
-			_infiniteSlider.speed,
+	} else if ($infiniteSlider.mode == 'fade') {
+		$('> ul > li.active', $infiniteSlider.container).fadeIn(
+			$infiniteSlider.speed,
 			function() {
-				$('> ul > li', _infiniteSlider.container)
+				$('> ul > li', $infiniteSlider.container)
 					.eq(current)
 					.hide();
-				_infiniteSlider.animated = false;
-				if (_infiniteSlider.running)
-					_infiniteSlider.autoRotation(_infiniteSlider);
+				$infiniteSlider.animated = false;
+				if ($infiniteSlider.running) {
+					$infiniteSlider.autoRotation($infiniteSlider);
+				}
 			}
 		);
-	} else if (_infiniteSlider.mode == 'demask') {
-		$('> ul > li.active', _infiniteSlider.container).animate(
-			{ width: _infiniteSlider.width },
-			_infiniteSlider.speed,
-			_infiniteSlider.easing,
+	} else if ($infiniteSlider.mode == 'demask') {
+		$('> ul > li.active', $infiniteSlider.container).animate(
+			{ width: $infiniteSlider.width },
+			$infiniteSlider.speed,
+			$infiniteSlider.easing,
 			function() {
-				$('> ul > li.inactive', _infiniteSlider.container).width(0);
-				_infiniteSlider.animated = false;
-				if (_infiniteSlider.running)
-					_infiniteSlider.autoRotation(_infiniteSlider);
+				$('> ul > li.inactive', $infiniteSlider.container).width(0);
+				$infiniteSlider.animated = false;
+				if ($infiniteSlider.running) {
+					$infiniteSlider.autoRotation($infiniteSlider);
+				}
 			}
 		);
-	} else if (_infiniteSlider.mode == 'columns') {
-		$('> ul > li', _infiniteSlider.container)
+	} else if ($infiniteSlider.mode == 'columns') {
+		$('> ul > li', $infiniteSlider.container)
 			.eq(clicked)
 			.css('left', '0');
-		$('> ul > li', _infiniteSlider.container)
+		$('> ul > li', $infiniteSlider.container)
 			.eq(current)
 			.find('.columns > li > div')
 			.animate(
 				{ width: 0 },
-				_infiniteSlider.speed,
-				_infiniteSlider.easing,
+				$infiniteSlider.speed,
+				$infiniteSlider.easing,
 				function() {
-					$('> ul > li', _infiniteSlider.container)
+					$('> ul > li', $infiniteSlider.container)
 						.eq(current)
 						.css('left', '100%');
-					$('> ul > li', _infiniteSlider.container)
+					$('> ul > li', $infiniteSlider.container)
 						.eq(current)
 						.find('.columns > li > div')
 						.width('100%');
-					_infiniteSlider.animated = false;
-					if (_infiniteSlider.running)
-						_infiniteSlider.autoRotation(_infiniteSlider);
+					$infiniteSlider.animated = false;
+					if ($infiniteSlider.running)
+						$infiniteSlider.autoRotation($infiniteSlider);
 				}
 			);
-	} else if (_infiniteSlider.mode == 'css') {
-		// Transition Infos
+	} else if ($infiniteSlider.mode == 'css') {
 		if (
 			$('#gallery').length == 1 &&
 			$('h2 .big').html() !=
-				$('> ul > li', _infiniteSlider.container)
+				$('> ul > li', $infiniteSlider.container)
 					.eq(clicked)
 					.attr('data-project-title')
 		) {
 			$('h2 .big').html(
-				$('> ul > li', _infiniteSlider.container)
+				$('> ul > li', $infiniteSlider.container)
 					.eq(clicked)
 					.attr('data-project-title')
 			);
 			$('.infos .text > div').html(
-				$('> ul > li', _infiniteSlider.container)
+				$('> ul > li', $infiniteSlider.container)
 					.eq(clicked)
 					.attr('data-project-content')
 			);
 		}
 
-		// Transition Images
-		$('> ul > li', _infiniteSlider.container)
+		$('> ul > li', $infiniteSlider.container)
 			.eq(current)
 			.addClass('leaving');
 		setTimeout(function() {
-			$('> ul > li', _infiniteSlider.container)
+			$('> ul > li', $infiniteSlider.container)
 				.eq(current)
 				.addClass('no-anim');
-			$('> ul > li', _infiniteSlider.container)
+			$('> ul > li', $infiniteSlider.container)
 				.eq(current)
 				.removeClass('leaving');
-			$('> ul > li', _infiniteSlider.container)
+			$('> ul > li', $infiniteSlider.container)
 				.eq(current)
 				.removeClass('no-anim');
-			_infiniteSlider.animated = false;
-			_infiniteSlider.autoRotation(_infiniteSlider);
-		}, _infiniteSlider.speed);
+			$infiniteSlider.animated = false;
+			$infiniteSlider.autoRotation($infiniteSlider);
+		}, $infiniteSlider.speed);
 	}
 };
 
