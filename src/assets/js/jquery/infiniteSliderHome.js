@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from './easing';
 import autoBind from 'auto-bind';
 
 class InfiniteSliderHome {
@@ -31,59 +31,55 @@ class InfiniteSliderHome {
 		this.index = 0;
 		this.indexSlide = 0;
 		this.length = $('li', this.container).length - 1;
+		this.isGallery = $('#gallery').length === 1;
 		autoBind(this);
 		this.init();
 	}
 
 	init() {
 		const {
-			autoRotation,
 			arrows,
 			arrowsClick,
+			autoRotation,
 			container,
 			controls,
 			controlsClick,
 			count,
 			index,
 			infos,
+			isGallery,
 			reset,
-			running,
 		} = this;
-		$('> ul > li', container).each(function() {
-			$(this).attr('data-slide', $(this).index() + 1);
-			console.log('zzz', $(this).index());
-			if ($(this).index() === 0) {
-				$(controls).append(
-					`<li class="active" data-slide="${$(this).index() +
-						1}"><a href="">Slide ${$(this).index() + 1}</a></li>`
-				);
 
-				if ($('#gallery').length === 1) {
-					$('h2 .big').html($(this).attr('data-project-title'));
-					$('.infos .text > div').html($(this).attr('data-project-content'));
-				}
-			} else {
-				$(this).addClass('inactive');
-				$(controls).append(
-					`<li class="inactive" data-slide="${$(this).index() +
-						1}"><a href="">Slide ${$(this).index() + 1}</a></li>`
-				);
+		$('> ul > li', container).each(function() {
+			const i = $(this).index();
+			const slideIndex = i + 1;
+			const isActive = i === 0 ? 'active' : 'inactive';
+			const template = `<li class="${isActive}" data-slide="${slideIndex}"><a href="">Slide ${slideIndex}</a></li>`;
+
+			$(this).attr('data-slide', slideIndex);
+			$(this).addClass(isActive);
+			$(controls).append(template);
+
+			//! gallery
+			if (i === 0 && isGallery) {
+				$('h2 .big').html($(this).attr('data-project-title'));
+				$('.infos .text > div').html($(this).attr('data-project-content'));
 			}
 		});
 
 		$('li', controls).each(function() {
-			$(this).attr('data-slide', $(this).index() + 1);
+			const i = $(this).index();
+			const slideIndex = i + 1;
+			const isActive = i === 0 ? 'active' : 'inactive';
 
-			if ($(this).index() == 0) {
-				$(this).addClass('active');
-			} else {
-				$(this).addClass('inactive');
-			}
+			$(this).attr('data-slide', slideIndex);
+			$(this).addClass(isActive);
 		});
 
 		$(count).html(`${index + 1} / ${this.length + 1}`);
 
-		if ($('> ul > li:eq(0)', container).attr('data-infos') != '') {
+		if ($('> ul > li:eq(0)', container).attr('data-infos') !== '') {
 			$(infos).html($('> ul > li:eq(0)', container).attr('data-infos'));
 		}
 
@@ -97,15 +93,11 @@ class InfiniteSliderHome {
 		$('li a', controls).click(function(e) {
 			e.preventDefault();
 			controlsClick($(this));
-
-			return false;
 		});
 
 		$('li a', arrows).click(function(e) {
 			e.preventDefault();
 			arrowsClick($(this));
-
-			return false;
 		});
 
 		$(window).resize(() => {
@@ -113,19 +105,23 @@ class InfiniteSliderHome {
 		});
 
 		$(document).keydown(({ keyCode }) => {
-			if (keyCode === 39) {
-				$('.slider-arrows .next a').trigger('click');
-			}
-
-			if (keyCode === 37) {
-				$('.slider-arrows .previous a').trigger('click');
+			switch (keyCode) {
+				case 39:
+					$('.slider-arrows .next a').trigger('click');
+					break;
+				case 37:
+					$('.slider-arrows .previous a').trigger('click');
+					break;
+				default:
+					break;
 			}
 		});
 
-		if ($('#gallery').length === 1) {
+		if (isGallery) {
 			this.running = false;
 		}
-		if (running) {
+
+		if (this.running) {
 			autoRotation();
 		}
 	}
@@ -134,20 +130,21 @@ class InfiniteSliderHome {
 		console.log('autoRotation');
 		clearTimeout(this.t);
 		const {
-			controls,
 			autorotation,
-			running,
 			changeSlide,
-			indexSlide,
+			controls,
 			duration,
+			indexSlide,
+			isGallery,
+			running,
 		} = this;
 
-		if ($('#gallery').length === 1) {
+		if (isGallery) {
 			this.running = false;
 		}
 
 		if ($('li', controls).length > 1 && autorotation && running) {
-			this.t = setTimeout(function() {
+			this.t = setTimeout(() => {
 				changeSlide(indexSlide, indexSlide + 1);
 			}, duration);
 		}
@@ -174,18 +171,36 @@ class InfiniteSliderHome {
 		const { animated, changeSlide, indexSlide } = this;
 		if (!animated) {
 			clearTimeout(this.t);
-			let clicked;
-			if (
-				$(object)
-					.parent()
-					.hasClass('next')
-			) {
-				clicked = this.indexSlide + 1;
-			} else {
-				clicked = this.indexSlide - 1;
-			}
+			const clicked = $(object)
+				.parent()
+				.hasClass('next')
+				? indexSlide + 1
+				: indexSlide - 1;
 
 			changeSlide(indexSlide, clicked);
+		}
+
+		return false;
+	}
+
+	controlsClick(object) {
+		console.log('controlsClick');
+		const { animated, changeSlide, indexSlide, container } = this;
+		const listItem = $(object).parent();
+
+		if (!animated && listItem.hasClass('active') === false) {
+			this.autorotation = false;
+
+			clearTimeout(this.t);
+
+			const clicked = listItem.index();
+
+			$('> ul > li', container).each(function() {
+				const listItemIndex = parseInt($(this).attr('data-slide'), 10);
+				if (listItemIndex === clicked + 1) {
+					changeSlide(indexSlide, $(this).index());
+				}
+			});
 		}
 
 		return false;
@@ -194,6 +209,7 @@ class InfiniteSliderHome {
 	reset() {
 		console.log('reset');
 		const { animated, container, start, stop } = this;
+
 		if (!animated) {
 			stop();
 			this.width = container.width();
@@ -203,39 +219,13 @@ class InfiniteSliderHome {
 		}
 	}
 
-	controlsClick(object) {
-		const { animated, changeSlide, indexSlide, container } = this;
-		if (
-			!animated &&
-			$(object)
-				.parent()
-				.hasClass('active') == false
-		) {
-			this.autorotation = false;
-
-			clearTimeout(this.t);
-
-			const clicked = $(object)
-				.parent()
-				.index();
-
-			$('> ul > li', container).each(function() {
-				if ($(this).attr('data-slide') == clicked + 1) {
-					changeSlide(indexSlide, $(this).index());
-				}
-			});
-		}
-
-		return false;
-	}
-
 	changeSlide(current, clickedArg) {
 		const {
 			autoRotation,
 			container,
 			controls,
 			easing,
-			height,
+			isGallery,
 			mode,
 			running,
 			speed,
@@ -244,125 +234,70 @@ class InfiniteSliderHome {
 		this.animated = true;
 		let direction = 'next';
 		let clicked = clickedArg;
+		const listItem = $('> ul > li', container);
+
 		if (clicked < current) {
 			direction = 'previous';
 		}
+
 		if (clicked > this.length) {
 			clicked = 0;
 		} else if (clicked < 0) {
 			clicked = this.length;
 		}
 
-		$('> ul > li', container)
-			.removeClass('active')
-			.addClass('inactive');
-		$('> ul > li', container)
-			.eq(clicked)
-			.removeClass('inactive')
-			.addClass('active');
+		listItem.removeClass('active').addClass('inactive');
 
-		this.index =
-			parseInt($('> ul > li.active', container).attr('data-slide'), 10) - 1;
-		this.indexSlide = $('> ul > li.active', container).index();
+		const listItemClicked = listItem.eq(clicked);
+
+		listItemClicked.removeClass('inactive').addClass('active');
+
+		const activeListItem = $('> ul > li.active', container);
+
+		this.index = parseInt(activeListItem.attr('data-slide'), 10) - 1;
+		this.indexSlide = activeListItem.index();
 
 		$('li', controls).removeClass('active');
 		$('li', controls)
 			.eq(this.index)
 			.addClass('active');
 
+		const options = {
+			duration: speed,
+			easing,
+			complete: () => {
+				console.log(this.animated);
+				this.animated = false;
+				$('> ul > li.inactive', container).hide();
+				if (running) {
+					autoRotation();
+				}
+			},
+		};
+
+		const animateIt = (pos, widthOrHeight, dir) => {
+			const opperator = dir === 'next' ? '-=' : '+=';
+			const size = dir !== 'next' ? '-' : '';
+
+			listItemClicked.css(pos, this[widthOrHeight] + 'px').show();
+
+			// Animate slides
+			listItem.animate(
+				{ [pos]: opperator + `${size}${this[widthOrHeight]}` },
+				options
+			);
+		};
+
 		switch (mode) {
 			case 'slide':
-				console.log({ direction });
-				if (direction === 'next') {
-					$('> ul > li', container)
-						.eq(clicked)
-						.css('left', `${width}px`)
-						.show();
-
-					$('> ul > li', container).animate(
-						{ left: `-=${width}` },
-						{
-							duration: speed,
-							easing,
-							complete() {
-								this.animated = false;
-								$('> ul > li.inactive', container).hide();
-								if (running) {
-									autoRotation();
-								}
-							},
-						}
-					);
-				} else {
-					$('> ul > li', container)
-						.eq(clicked)
-						.css('left', `${-width}px`)
-						.show();
-
-					$('> ul > li', container).animate(
-						{ left: `+=${width}` },
-						{
-							duration: speed,
-							easing,
-							complete() {
-								this.animated = false;
-								$('> ul > li.inactive', container).hide();
-								if (running) {
-									autoRotation();
-								}
-							},
-						}
-					);
-				}
+				animateIt('left', 'width', direction);
 				break;
 			case 'slidev':
-				if (direction === 'next') {
-					$('> ul > li', container)
-						.eq(clicked)
-						.css('top', `${height}px`)
-						.show();
-
-					$('> ul > li', container).animate(
-						{ top: `-=${height}` },
-						{
-							duration: speed,
-							easing,
-							complete() {
-								this.animated = false;
-								$('> ul > li.inactive', container).hide();
-								if (running) {
-									autoRotation();
-								}
-							},
-						}
-					);
-				} else {
-					$('> ul > li', container)
-						.eq(clicked)
-						.css('top', `${-height}px`)
-						.show();
-
-					$('> ul > li', container).animate(
-						{ top: `+=${height}` },
-						{
-							duration: speed,
-							easing,
-							complete() {
-								this.animated = false;
-								$('> ul > li.inactive', container).hide();
-								if (running) {
-									autoRotation();
-								}
-							},
-						}
-					);
-				}
+				animateIt('top', 'height', direction);
 				break;
 			case 'fade':
-				$('> ul > li.active', container).fadeIn(speed, function() {
-					$('> ul > li', container)
-						.eq(current)
-						.hide();
+				activeListItem.fadeIn(speed, () => {
+					listItem.eq(current).hide();
 					this.animated = false;
 					if (running) {
 						autoRotation();
@@ -374,7 +309,7 @@ class InfiniteSliderHome {
 					{ width },
 					speed,
 					easing,
-					function() {
+					() => {
 						$('> ul > li.inactive', container).width(0);
 						this.animated = false;
 						if (running) {
@@ -384,17 +319,14 @@ class InfiniteSliderHome {
 				);
 				break;
 			case 'columns':
-				$('> ul > li', container)
-					.eq(clicked)
-					.css('left', '0');
-				$('> ul > li', container)
+				listItem.eq(clicked).css('left', '0');
+
+				listItem
 					.eq(current)
 					.find('.columns > li > div')
 					.animate({ width: 0 }, speed, easing, function() {
-						$('> ul > li', container)
-							.eq(current)
-							.css('left', '100%');
-						$('> ul > li', container)
+						listItem.eq(current).css('left', '100%');
+						listItem
 							.eq(current)
 							.find('.columns > li > div')
 							.width('100%');
@@ -406,37 +338,21 @@ class InfiniteSliderHome {
 				break;
 			case 'css':
 				if (
-					$('#gallery').length === 1 &&
-					$('h2 .big').html() !=
-						$('> ul > li', container)
-							.eq(clicked)
-							.attr('data-project-title')
+					isGallery &&
+					$('h2 .big').html() != listItem.eq(clicked).attr('data-project-title')
 				) {
-					$('h2 .big').html(
-						$('> ul > li', container)
-							.eq(clicked)
-							.attr('data-project-title')
-					);
+					$('h2 .big').html(listItem.eq(clicked).attr('data-project-title'));
+
 					$('.infos .text > div').html(
-						$('> ul > li', container)
-							.eq(clicked)
-							.attr('data-project-content')
+						listItem.eq(clicked).attr('data-project-content')
 					);
 				}
 
-				$('> ul > li', container)
-					.eq(current)
-					.addClass('leaving');
+				listItem.eq(current).addClass('leaving');
 				setTimeout(() => {
-					$('> ul > li', container)
-						.eq(current)
-						.addClass('no-anim');
-					$('> ul > li', container)
-						.eq(current)
-						.removeClass('leaving');
-					$('> ul > li', container)
-						.eq(current)
-						.removeClass('no-anim');
+					listItem.eq(current).addClass('no-anim');
+					listItem.eq(current).removeClass('leaving');
+					listItem.eq(current).removeClass('no-anim');
 					this.animated = false;
 					autoRotation();
 				}, speed);

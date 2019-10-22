@@ -232,7 +232,7 @@ class InfiniteSlider {
 			Array.from(container.querySelectorAll('ul > li')).forEach(item => {
 				item.style.width = `${this.width}px`;
 			});
-			console.log('yoooooo');
+
 			// Demask Specific
 			if (mode === 'demask') {
 				Array.from(container.querySelectorAll('ul > li')).forEach(item => {

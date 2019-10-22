@@ -24,6 +24,10 @@ $z-index-section: 700;
   min-width: 980px;
   overflow: hidden;
 
+  #gallery {
+    z-index: 500;
+  }
+
   > section {
     overflow: hidden;
     position: relative;

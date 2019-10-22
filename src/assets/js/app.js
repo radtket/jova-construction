@@ -7,6 +7,8 @@ import {
 	hasClass,
 	scrollIt,
 	getOffsetTop,
+	fadeOut,
+	fadeIn,
 } from './helpers';
 import InfiniteSlider from './jquery/infiniteSlider';
 import InfiniteSliderHome from './jquery/infiniteSliderHome';
@@ -83,8 +85,6 @@ const triggerScroll = (sectionId, currentScroll) => {
 };
 
 const initTips = () => {
-	console.log($('#wrapper.tips #block1 .bullet'));
-
 	setTimeout(() => {
 		isLoaded('#wrapper.tips #block1 .bullet');
 		setTimeout(() => {
@@ -95,19 +95,113 @@ const initTips = () => {
 			triggerScroll('#tips');
 		}, 100);
 	}, 250);
+};
 
-	// $('#tips').each(() => {
-	// 	setTimeout(() => {
-	// 		isLoaded($('#block1 .bullet'));
-	// 		setTimeout(() => {
-	// 			isLoaded($('#block1 .sidebar .card-container'));
-	// 			// if (isMobile) {
-	// 			// 	isLoaded($('.to-load'));
-	// 			// }
-	// 			triggerScroll('#tips');
-	// 		}, 100);
-	// 	}, 250);
-	// });
+const initGallery = () => {
+	const $cardContainer = document.querySelector(
+		'#slider-container-squares .card-container'
+	);
+
+	if ($cardContainer) {
+		const $btnMenu = $cardContainer.querySelector('.btn-menu a');
+		const $btnInfosOpen = $cardContainer.querySelector('.btn-infos a');
+		const $btnInfosClose = $cardContainer.querySelector('.btn-infos-close a');
+
+		if ($btnMenu) {
+			// Open Menu
+			$btnMenu.addEventListener('click', e => {
+				e.preventDefault();
+				$btnHeader.click();
+			});
+		}
+
+		if ($btnInfosOpen) {
+			$btnInfosOpen.addEventListener('click', function(e) {
+				e.preventDefault();
+				const { parentElement } = this;
+				const container = this.closest('.card-container');
+				const closeButton = container.querySelector('.btn-infos-close');
+				const wrapper = container.querySelector('div:first-child > div');
+
+				if (!isAnimationRunning) {
+					isAnimationRunning = true;
+					fadeOut(parentElement);
+					fadeIn(closeButton);
+					wrapper.style.width = 'auto';
+
+					anime({
+						targets: container,
+						width: 585,
+						easing: 'easeInQuad',
+						duration: 450,
+						complete(anim) {
+							const { offsetHeight } = container.querySelector(
+								'.infos > .text'
+							);
+							anim.finished.then(() => {
+								anime({
+									targets: container.querySelector('.infos'),
+									height: offsetHeight,
+									easing: 'easeInQuad',
+									duration: 550,
+									complete(ani) {
+										ani.finished.then(() => {
+											isAnimationRunning = false;
+										});
+									},
+								});
+							});
+						},
+					});
+				}
+			});
+		}
+
+		if ($btnInfosClose) {
+			$btnInfosClose.addEventListener('click', function(e) {
+				e.preventDefault();
+				const { parentElement } = this;
+				const container = this.closest('.card-container');
+				const openButton = container.querySelector('.btn-infos');
+				const wrapper = container.querySelector('div:first-child > div');
+
+				if (!isAnimationRunning) {
+					isAnimationRunning = true;
+					fadeOut(parentElement);
+					fadeIn(openButton);
+
+					anime({
+						targets: container.querySelector('.infos'),
+						height: 0,
+						easing: 'easeOutQuad',
+						duration: 550,
+						complete(anim) {
+							anim.finished.then(() => {
+								anime({
+									targets: container,
+									width: 480,
+									easing: 'easeOutQuad',
+									duration: 450,
+									complete(ani) {
+										ani.finished.then(() => {
+											wrapper.style.width = 'auto';
+											isAnimationRunning = false;
+										});
+									},
+								});
+							});
+						},
+					});
+				}
+			});
+		}
+
+		return setTimeout(() => {
+			isLoaded('#slider-container-squares .card-container');
+		}, 750);
+	}
+
+	return false;
 };
 
 const initHome = () =>
@@ -147,18 +241,10 @@ Array.from(document.querySelectorAll('#tips .slider-container')).forEach(
 				false
 			);
 		} else {
-			console.log({ item });
 			addClass(item, 'disabled');
 		}
 	}
 );
-
-// Tips
-$('#tips').each(function() {
-	$('.slider-container > .slider > ul > li > div > div', this).width(
-		$('.slider-container > .slider > ul > li > div > div img').width() - 1
-	);
-});
 
 const scrollSliderSquares = () => {
 	const windowHeight = window.innerHeight;
@@ -260,7 +346,7 @@ const initToLoad = () => {
 	// Slider Arrows in Header
 	Array.from(
 		document.querySelectorAll(
-			'.card-container.home .btn-previous, .card-container.home .btn-next'
+			'.card-container .btn-previous, .card-container .btn-next'
 		)
 	).forEach(btn => {
 		btn.addEventListener('click', e => {
@@ -359,15 +445,18 @@ function scrollContent() {
 
 const adjustTextGrids = () => {
 	const $textGrid = document.querySelector('.text-grid');
-	const modell = $textGrid.querySelector('.line:first-child > div:first-child')
-		.clientWidth;
 
-	$textGrid.style.marginTop = `${-modell / 2}px`;
+	if ($textGrid) {
+		const modell = $textGrid.querySelector(
+			'.line:first-child > div:first-child'
+		).clientWidth;
+		$textGrid.style.marginTop = `${-modell / 2}px`;
 
-	Array.from($textGrid.querySelectorAll('.line > div')).forEach(item => {
-		const node = item;
-		node.style.height = `${modell}px`;
-	});
+		Array.from($textGrid.querySelectorAll('.line > div')).forEach(item => {
+			const node = item;
+			node.style.height = `${modell}px`;
+		});
+	}
 };
 
 const fullHeight = () => {
@@ -405,7 +494,20 @@ function positionContent() {
 	fullHeight();
 	// Adjust Text Grids
 	adjustTextGrids();
+
 	$wrapper.style.paddingBottom = `${$footer.offsetHeight}px`;
+
+	// Tips
+	const $tips = document.querySelectorAll(
+		'#tips .slider-container > .slider > ul > li > div > div'
+	);
+
+	if ($tips) {
+		Array.from($tips).forEach(item => {
+			const { offsetWidth } = item.querySelector('img');
+			item.style.width = `${offsetWidth - 1}px`;
+		});
+	}
 }
 
 window.addEventListener(
@@ -442,6 +544,7 @@ const jqOnLoad = () => {
 $btnHeader.addEventListener('click', openHeaderMenu);
 $header.addEventListener('click', closeHeaderMenu);
 window.onload = initHome();
+window.onload = initGallery();
 window.onload = initTips();
 window.onload = addClass('#slider-container-squares', 't-translate');
 window.onload = positionContent();
