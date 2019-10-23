@@ -67,3 +67,13 @@ hr {
   letter-spacing: $letter-spacing-base;
   text-transform: uppercase;
 }
+
+%font-style-4 {
+  font-family: $font-family-anonymous;
+  font-weight: 700;
+}
+
+%font-style-5 {
+  font-family: $font-family-anonymous;
+  font-size: 17px;
+}

@@ -21,6 +21,7 @@ const $wrapper = document.querySelector('#wrapper');
 const $footer = document.querySelector('#footer');
 const $body = document.querySelector('body');
 let isAnimationRunning = false;
+let aboutTimeout;
 
 /* Feature detection */
 let passiveIfSupported = false;
@@ -216,6 +217,45 @@ const initHome = () =>
 		}, 1500);
 	}, 750);
 
+const initAbout = (isMobile, currentScroll) => {
+	const $about = document.querySelector('#about');
+
+	if ($about) {
+		const $block1 = $about.querySelector('#block1');
+		const $block1TextGrid = $block1.querySelector('.text-grid');
+		const { offsetLeft } = $block1.querySelector('.centered:first-child');
+
+		$scrollButton.style.left = `${offsetLeft}px`;
+		$block1.classList.add('active');
+		$block1TextGrid.classList.add('visible');
+
+		Array.from($block1TextGrid.querySelectorAll('.line')).forEach(item => {
+			isLoaded(item);
+		});
+
+		// Timesouts
+		setTimeout(() => {
+			Array.from($about.querySelectorAll('img')).forEach(item => {
+				isLoaded(item);
+			});
+		}, 250);
+
+		setTimeout(() => {
+			$block1.querySelector('.card-container').classList.add('loaded');
+
+			setTimeout(() => {
+				isLoaded('.btn-scroll-down');
+
+				// if (isMobile) {
+				// 	isLoaded($('.to-load', $aboutpage));
+				// }
+			}, 1500);
+		}, 750);
+
+		triggerScroll('#block', currentScroll);
+	}
+};
+
 const infiniteSliderSquares = new InfiniteSliderHome(
 	$('#slider-container-squares'),
 	2000,
@@ -255,6 +295,7 @@ const scrollSliderSquares = () => {
 	const sliderOffset = getOffsetTop(noSlider);
 	const sliderPos =
 		newScroll + windowHeight > sliderOffset ? sliderOffset - scrollHeight : 0;
+
 	if (sliderSquares) {
 		sliderSquares.style.top = `${sliderPos}px`;
 		sliderSquares.querySelector('.slider').style.top = `${-sliderPos * 0.75}px`;
@@ -264,6 +305,69 @@ const scrollSliderSquares = () => {
 			item.style.opacity = (newScroll * 1.5) / windowHeight;
 		});
 	}
+};
+
+// Parallax
+const initParallax = () => {
+	const $parallax = $('.parallax');
+	const newScroll = $(window).scrollTop();
+	const windowHeight = $(window).height();
+
+	$parallax.each(function() {
+		const parallaxHeight = $(this).height();
+		const parallaxOffset = $(this).offset().top;
+		const textScroll = parallaxOffset - newScroll;
+		let tempScroll = textScroll;
+		const percTranslate = tempScroll / parallaxHeight;
+		const scollHalfWay = newScroll + windowHeight * 0.5;
+
+		// Set Limits
+		if (tempScroll < -parallaxHeight) {
+			tempScroll = -parallaxHeight;
+		}
+
+		if (tempScroll > parallaxHeight) {
+			tempScroll = parallaxHeight;
+		}
+
+		// Cards and Images
+		$('.card-container.card2', this).css({
+			transform: 'translate(0, ' + 150 * -percTranslate + 'px)',
+			'-webkit-transform': 'translate(0, ' + 150 * -percTranslate + 'px)',
+		});
+
+		$('.img', this).css({
+			transform: 'translate(0, ' + 550 * -percTranslate + 'px)',
+			'-webkit-transform': 'translate(0, ' + 550 * -percTranslate + 'px)',
+		});
+
+		// Text Grid
+		$('.text-grid', this).css({
+			transform: 'translate(0, ' + -textScroll + 'px)',
+			'-webkit-transform': 'translate(0, ' + -textScroll + 'px)',
+		});
+
+		// Make Active
+		if (
+			scollHalfWay > parallaxOffset &&
+			scollHalfWay < parallaxOffset + parallaxHeight &&
+			!$(this).hasClass('active')
+		) {
+			// Unload
+			$parallax.removeClass('active');
+			$('.text-grid', $parallax).removeClass('visible');
+			$('.text-grid .line', $parallax).removeClass('loaded');
+
+			// Reload
+			const object = $(this);
+			object.addClass('active');
+			clearTimeout(aboutTimeout);
+			aboutTimeout = setTimeout(() => {
+				$('.text-grid', object).addClass('visible');
+				isLoaded($('.text-grid .line', object));
+			}, 750);
+		}
+	});
 };
 
 // Parallax Icons
@@ -327,14 +431,13 @@ const demaskFooter = () => {
 
 // initToLoad
 const initToLoad = () => {
-	const { innerHeight: windowHeight, scrollY } = window;
-	const scrollHeight = scrollY + windowHeight;
 	const $toLoad = document.querySelectorAll('.to-load');
 
 	Array.from($toLoad).forEach(item => {
+		const scrollHeight = window.scrollY + window.innerHeight;
 		const offset = getOffsetTop(item);
 
-		if (scrollHeight * 0.95 > offset) {
+		if (scrollHeight * 0.85 > offset) {
 			item.classList.remove('no-anim');
 			isLoaded(item);
 		} else if (scrollHeight < offset) {
@@ -437,6 +540,8 @@ function scrollContent() {
 	showHideHeader();
 	// Scroll Slider Squares
 	scrollSliderSquares();
+	// Parallax
+	initParallax();
 	// Parallax Icons
 	parallaxIcons();
 
@@ -444,17 +549,17 @@ function scrollContent() {
 }
 
 const adjustTextGrids = () => {
-	const $textGrid = document.querySelector('.text-grid');
+	const $textGrid = document.querySelectorAll('.text-grid');
 
 	if ($textGrid) {
-		const modell = $textGrid.querySelector(
-			'.line:first-child > div:first-child'
-		).clientWidth;
-		$textGrid.style.marginTop = `${-modell / 2}px`;
+		Array.from($textGrid).forEach(item => {
+			const modell = item.querySelector('.line:first-child > div:first-child')
+				.clientWidth;
+			item.style.marginTop = `${-modell / 2}px`;
 
-		Array.from($textGrid.querySelectorAll('.line > div')).forEach(item => {
-			const node = item;
-			node.style.height = `${modell}px`;
+			Array.from(item.querySelectorAll('.line > div')).forEach(node => {
+				node.style.height = `${modell}px`;
+			});
 		});
 	}
 };
@@ -495,8 +600,6 @@ function positionContent() {
 	// Adjust Text Grids
 	adjustTextGrids();
 
-	$wrapper.style.paddingBottom = `${$footer.offsetHeight}px`;
-
 	// Tips
 	const $tips = document.querySelectorAll(
 		'#tips .slider-container > .slider > ul > li > div > div'
@@ -518,25 +621,6 @@ window.addEventListener(
 	passiveIfSupported
 );
 
-const onReady = () => {
-	window.scrollTo({
-		top: 0,
-		behavior: 'smooth',
-	});
-	scrollContent();
-};
-
-const { readyState, documentElement } = document;
-
-if (
-	readyState === 'complete' ||
-	(readyState !== 'loading' && !documentElement.doScroll)
-) {
-	onReady();
-} else {
-	document.addEventListener('DOMContentLoaded', onReady);
-}
-
 const jqOnLoad = () => {
 	initScrollSpy();
 };
@@ -546,6 +630,18 @@ $header.addEventListener('click', closeHeaderMenu);
 window.onload = initHome();
 window.onload = initGallery();
 window.onload = initTips();
+window.onLoad = initAbout();
 window.onload = addClass('#slider-container-squares', 't-translate');
 window.onload = positionContent();
 window.onload = jqOnLoad();
+
+document.addEventListener('readystatechange', event => {
+	if (document.readyState === 'complete') {
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
+		scrollContent();
+		$wrapper.style.paddingBottom = `${$footer.offsetHeight}px`;
+	}
+});
