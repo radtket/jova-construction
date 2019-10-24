@@ -12,6 +12,12 @@ import {
 } from './helpers';
 import InfiniteSlider from './jquery/infiniteSlider';
 import InfiniteSliderHome from './jquery/infiniteSliderHome';
+import triggerScroll from './jquery/triggerScroll';
+
+// Pages
+import initHome from './pages/home';
+import initAbout from './pages/about';
+import initTips from './pages/tips';
 
 // Elements
 const $btnHeader = document.querySelector('#header_btn-menu');
@@ -23,6 +29,8 @@ const $body = document.querySelector('body');
 let isAnimationRunning = false;
 let aboutTimeout;
 
+// Pages
+const $about = document.querySelector('#about');
 /* Feature detection */
 let passiveIfSupported = false;
 
@@ -69,34 +77,6 @@ function closeHeaderMenu({ target: { nodeName } }) {
 		}, 450);
 	}
 }
-
-const triggerScroll = (sectionId, currentScroll) => {
-	if (window.location.hash !== '') {
-		const $target = $(sectionId + window.location.hash.replace('#', ''));
-		const scroll = Math.abs(currentScroll - $target.offset().top);
-		const scrollTop = $target.offset().top;
-		const scrollTime = scroll * 0.5;
-
-		$('html,body').animate(
-			{ scrollTop },
-			scrollTime < 1250 ? 1250 : scrollTime,
-			'easeInOutQuad'
-		);
-	}
-};
-
-const initTips = () => {
-	setTimeout(() => {
-		isLoaded('#wrapper.tips #block1 .bullet');
-		setTimeout(() => {
-			isLoaded($('#wrapper.tips #block1 .sidebar .card-container'));
-			// if (isMobile) {
-			// 	isLoaded($('.to-load'));
-			// }
-			triggerScroll('#tips');
-		}, 100);
-	}, 250);
-};
 
 const initGallery = () => {
 	const $cardContainer = document.querySelector(
@@ -205,57 +185,6 @@ const initGallery = () => {
 	return false;
 };
 
-const initHome = () =>
-	setTimeout(() => {
-		console.log("	console.log('initHome');");
-		isLoaded('#block1 .card-container');
-		setTimeout(() => {
-			isLoaded('.btn-scroll-down');
-			// if (isMobile) {
-			// 	isLoaded('.to-load');
-			// }
-		}, 1500);
-	}, 750);
-
-const initAbout = (isMobile, currentScroll) => {
-	const $about = document.querySelector('#about');
-
-	if ($about) {
-		const $block1 = $about.querySelector('#block1');
-		const $block1TextGrid = $block1.querySelector('.text-grid');
-		const { offsetLeft } = $block1.querySelector('.centered:first-child');
-
-		$scrollButton.style.left = `${offsetLeft}px`;
-		$block1.classList.add('active');
-		$block1TextGrid.classList.add('visible');
-
-		Array.from($block1TextGrid.querySelectorAll('.line')).forEach(item => {
-			isLoaded(item);
-		});
-
-		// Timesouts
-		setTimeout(() => {
-			Array.from($about.querySelectorAll('img')).forEach(item => {
-				isLoaded(item);
-			});
-		}, 250);
-
-		setTimeout(() => {
-			$block1.querySelector('.card-container').classList.add('loaded');
-
-			setTimeout(() => {
-				isLoaded('.btn-scroll-down');
-
-				// if (isMobile) {
-				// 	isLoaded($('.to-load', $aboutpage));
-				// }
-			}, 1500);
-		}, 750);
-
-		triggerScroll('#block', currentScroll);
-	}
-};
-
 const infiniteSliderSquares = new InfiniteSliderHome(
 	$('#slider-container-squares'),
 	2000,
@@ -309,65 +238,79 @@ const scrollSliderSquares = () => {
 
 // Parallax
 const initParallax = () => {
-	const $parallax = $('.parallax');
-	const newScroll = $(window).scrollTop();
-	const windowHeight = $(window).height();
+	const $parallax = document.querySelectorAll('.parallax');
+	const newScroll = window.scrollY;
+	const windowHeight = window.innerHeight;
+	if ($parallax) {
+		Array.from($parallax).forEach(item => {
+			const parallaxHeight = item.offsetHeight;
+			const parallaxOffset = getOffsetTop(item);
+			const textScroll = parallaxOffset - newScroll;
+			let tempScroll = textScroll;
+			const percTranslate = tempScroll / parallaxHeight;
+			const scollHalfWay = newScroll + windowHeight * 0.5;
 
-	$parallax.each(function() {
-		const parallaxHeight = $(this).height();
-		const parallaxOffset = $(this).offset().top;
-		const textScroll = parallaxOffset - newScroll;
-		let tempScroll = textScroll;
-		const percTranslate = tempScroll / parallaxHeight;
-		const scollHalfWay = newScroll + windowHeight * 0.5;
+			// Set Limits
+			if (tempScroll < -parallaxHeight) {
+				tempScroll = -parallaxHeight;
+			}
 
-		// Set Limits
-		if (tempScroll < -parallaxHeight) {
-			tempScroll = -parallaxHeight;
-		}
+			if (tempScroll > parallaxHeight) {
+				tempScroll = parallaxHeight;
+			}
 
-		if (tempScroll > parallaxHeight) {
-			tempScroll = parallaxHeight;
-		}
+			const $card2 = item.querySelector('.card-container.card2');
+			const $img = item.querySelector('.img');
+			const $tg1 = item.querySelector('.text-grid');
 
-		// Cards and Images
-		$('.card-container.card2', this).css({
-			transform: 'translate(0, ' + 150 * -percTranslate + 'px)',
-			'-webkit-transform': 'translate(0, ' + 150 * -percTranslate + 'px)',
+			if ($card2) {
+				$card2.style.transform = `translate(0, ${150 * -percTranslate}px)`;
+			}
+
+			if ($img) {
+				$img.style.transform = `translate(0, ${550 * -percTranslate}px)`;
+			}
+
+			if ($tg1) {
+				$tg1.style.transform = `translate(0, ${-textScroll}px)`;
+			}
+
+			if (
+				scollHalfWay > parallaxOffset &&
+				scollHalfWay < parallaxOffset + parallaxHeight &&
+				!hasClass(item, 'active')
+			) {
+				// Unload
+				Array.from($parallax).forEach(item1 => {
+					const $tg2 = item1.querySelector('.text-grid');
+					const $lines = $tg2.querySelectorAll('.line');
+					item1.classList.remove('active');
+					$tg2.classList.remove('visible');
+
+					if ($lines) {
+						Array.from($lines).forEach(line => {
+							line.classList.remove('loaded');
+						});
+					}
+				});
+
+				// Reload
+				addClass(item, 'active');
+				clearTimeout(aboutTimeout);
+				aboutTimeout = setTimeout(() => {
+					const newTg = item.querySelector('.text-grid');
+					addClass(newTg, 'visible');
+					const $newLines = newTg.querySelectorAll('.line');
+
+					if ($newLines) {
+						Array.from($newLines).forEach(l => {
+							isLoaded(l);
+						});
+					}
+				}, 750);
+			}
 		});
-
-		$('.img', this).css({
-			transform: 'translate(0, ' + 550 * -percTranslate + 'px)',
-			'-webkit-transform': 'translate(0, ' + 550 * -percTranslate + 'px)',
-		});
-
-		// Text Grid
-		$('.text-grid', this).css({
-			transform: 'translate(0, ' + -textScroll + 'px)',
-			'-webkit-transform': 'translate(0, ' + -textScroll + 'px)',
-		});
-
-		// Make Active
-		if (
-			scollHalfWay > parallaxOffset &&
-			scollHalfWay < parallaxOffset + parallaxHeight &&
-			!$(this).hasClass('active')
-		) {
-			// Unload
-			$parallax.removeClass('active');
-			$('.text-grid', $parallax).removeClass('visible');
-			$('.text-grid .line', $parallax).removeClass('loaded');
-
-			// Reload
-			const object = $(this);
-			object.addClass('active');
-			clearTimeout(aboutTimeout);
-			aboutTimeout = setTimeout(() => {
-				$('.text-grid', object).addClass('visible');
-				isLoaded($('.text-grid .line', object));
-			}, 750);
-		}
-	});
+	}
 };
 
 // Parallax Icons
@@ -630,7 +573,7 @@ $header.addEventListener('click', closeHeaderMenu);
 window.onload = initHome();
 window.onload = initGallery();
 window.onload = initTips();
-window.onLoad = initAbout();
+window.onLoad = initAbout($about);
 window.onload = addClass('#slider-container-squares', 't-translate');
 window.onload = positionContent();
 window.onload = jqOnLoad();

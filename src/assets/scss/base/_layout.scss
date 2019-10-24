@@ -9,6 +9,11 @@ html {
   box-sizing: inherit;
 }
 
+::selection,
+::-moz-selection {
+  background-color: $color-twine-30 !important;
+}
+
 html,
 body {
   height: 100%;
@@ -41,6 +46,7 @@ $z-index-section: 700;
   .centered {
     @include clearfix;
     @include margin(0 auto);
+    box-sizing: content-box;
     max-width: 1375px;
     position: relative;
     width: 80%;
