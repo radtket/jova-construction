@@ -127,7 +127,7 @@
         .icon-1,
         .icon-2 {
           @include size(16px, 36px);
-          background: $url-16 no-repeat 0 0;
+          fill: $color-icon-gold;
           position: absolute;
         }
 
@@ -200,7 +200,7 @@
         .icon-1 {
           @include position(absolute, 345px null null 9.09%);
           @include size(16px, 36px);
-          background: $url-16 no-repeat 0 0;
+          fill: $color-icon-gold;
           margin-left: -4px;
         }
       }
@@ -228,7 +228,7 @@
         .icon-1,
         .icon-2 {
           @include size(16px, 36px);
-          background: $url-16 no-repeat 0 0;
+          fill: $color-icon-gold;
           position: absolute;
         }
 

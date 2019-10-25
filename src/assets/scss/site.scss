@@ -27,6 +27,8 @@
 @import 'pages/about';
 @import 'pages/home';
 @import 'pages/tips';
+@import 'pages/contact';
+@import 'pages/services';
 
 .full-height {
   height: 100vh;
@@ -47,8 +49,6 @@
   }
 }
 
-// #wrapper {
-// 	&.tips {
-
-// 	}
-// }
+.clearer {
+  @include clearfix;
+}

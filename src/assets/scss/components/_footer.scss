@@ -6,8 +6,14 @@
   z-index: 500;
 
   > .centered {
-    background: $url-31 no-repeat center bottom;
     padding: 70px 0 95px;
+
+    &::before {
+      @include position(absolute, null null 0 50%);
+      @include size(1px, 37px);
+      background: $color-rangoon-green;
+      content: '';
+    }
 
     .logo {
       @include size(107px, 32px);
@@ -151,7 +157,12 @@
         }
 
         + li {
-          background: $url-31 no-repeat 0 0;
+          &::before {
+            @include position(absolute, 0 null null 0);
+            @include size(1px, 37px);
+            background: $color-rangoon-green;
+            content: '';
+          }
         }
       }
     }
@@ -170,7 +181,7 @@
 
     .copyright,
     .credits {
-      @include position(absolute, 0 null 33px);
+      @include position(absolute, null null 33px null);
       font-family: $font-family-roboto;
       font-size: 13px;
     }

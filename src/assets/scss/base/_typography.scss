@@ -55,6 +55,14 @@ hr {
   text-transform: uppercase;
 }
 
+%font-style-1-2 {
+  font-family: $font-family-oswald;
+  letter-spacing: $letter-spacing-large;
+  text-transform: uppercase;
+  // font-size: 14px;
+  // line-height: 40px;
+}
+
 %font-style-2 {
   font-family: $font-family-anonymous;
   font-size: 14px;
@@ -76,4 +84,10 @@ hr {
 %font-style-5 {
   font-family: $font-family-anonymous;
   font-size: 17px;
+}
+
+%extend-4 {
+  @include transition(opacity 0.45s ease-in-out 0.75s);
+  filter: alpha(opacity=0);
+  opacity: 0;
 }

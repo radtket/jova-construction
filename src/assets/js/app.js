@@ -18,6 +18,7 @@ import triggerScroll from './jquery/triggerScroll';
 import initHome from './pages/home';
 import initAbout from './pages/about';
 import initTips from './pages/tips';
+import initServices from './pages/services';
 
 // Elements
 const $btnHeader = document.querySelector('#header_btn-menu');
@@ -362,10 +363,11 @@ const showHideHeader = () => {
 
 // Demask Footer
 const demaskFooter = () => {
-	const { innerHeight: windowHeight, scrollY } = window;
-	const totalScroll = $body.scrollHeight - windowHeight;
+	const totalScroll = $body.scrollHeight - window.innerHeight;
 	const footerScroll =
-		scrollY > totalScroll - 220 ? 220 - (scrollY - (totalScroll - 220)) : 220;
+		window.scrollY > totalScroll - 220
+			? 220 - (window.scrollY - (totalScroll - 220))
+			: 220;
 
 	$footer.querySelector(
 		'.centered'
@@ -542,6 +544,11 @@ function positionContent() {
 	// Adjust Text Grids
 	adjustTextGrids();
 
+	// Services Adjust Columns Height
+	$('#services #block3 .left-block > div').height(
+		$('#services #block3 .right-block > div').height()
+	);
+
 	// Tips
 	const $tips = document.querySelectorAll(
 		'#tips .slider-container > .slider > ul > li > div > div'
@@ -574,6 +581,7 @@ window.onload = initGallery();
 window.onload = initTips();
 window.onLoad = initAbout($about);
 window.onload = addClass('#slider-container-squares', 't-translate');
+window.onload = initServices();
 window.onload = positionContent();
 window.onload = jqOnLoad();
 
