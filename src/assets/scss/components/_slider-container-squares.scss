@@ -234,9 +234,7 @@
           }
 
           .share {
-            bottom: 30px;
-            left: 25px;
-            position: absolute;
+            @include position(absolute, null null 30px 25px);
 
             > li {
               float: left;
@@ -246,7 +244,7 @@
                 @include size(36px, 34px);
                 background: $url-0 no-repeat 0 0;
                 display: block;
-                text-indent: -5000px;
+                text-indent: $text-indent-hack;
 
                 &:hover {
                   filter: alpha(opacity=40);
@@ -329,12 +327,10 @@
       }
 
       .btn-previous {
+        @include position(absolute, null null 0 0);
         @include size($slider-buttons-width, 100%);
         background: $url-1 repeat-x center center;
-        bottom: 0;
         display: block;
-        left: 0;
-        position: absolute;
 
         .small {
           @extend %font-style-3;
@@ -350,12 +346,10 @@
       }
 
       .btn-next {
+        @include position(absolute, null 0 0 null);
         @include size($slider-buttons-width, 100%);
         background: $url-2 repeat-x center center;
-        bottom: 0;
         display: block;
-        position: absolute;
-        right: 0;
 
         .small {
           @extend %font-style-3;

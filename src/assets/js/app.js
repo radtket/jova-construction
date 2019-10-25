@@ -377,13 +377,12 @@ const initToLoad = () => {
 	const $toLoad = document.querySelectorAll('.to-load');
 
 	Array.from($toLoad).forEach(item => {
-		const scrollHeight = window.scrollY + window.innerHeight;
 		const offset = getOffsetTop(item);
 
-		if (scrollHeight * 0.85 > offset) {
+		if (window.scrollY + window.innerHeight * 0.85 > offset) {
 			item.classList.remove('no-anim');
 			isLoaded(item);
-		} else if (scrollHeight < offset) {
+		} else if (window.scrollY + window.innerHeight < offset) {
 			addClass(item, 'no-anim');
 			item.classList.remove('loaded');
 		}

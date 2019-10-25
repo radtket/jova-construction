@@ -21,52 +21,46 @@
       position: absolute;
     }
 
-    &.top {
-      left: 0;
-      top: 0;
-      width: 100%;
-
-      > div {
-        @include size(0, 100%);
-        left: 0;
-        top: 0;
-      }
-    }
-
+    &.left,
     &.right {
       height: 100%;
-      right: 0;
-      top: 0;
 
       > div {
         @include size(100%, 0);
-        left: 0;
-        top: 0;
       }
     }
 
+    &.top,
     &.bottom {
-      bottom: 0;
-      right: 0;
       width: 100%;
 
       > div {
         @include size(0, 100%);
-        right: 0;
-        top: 0;
       }
     }
 
-    &.left {
-      bottom: 0;
-      height: 100%;
+    &.top,
+    &.top > div {
       left: 0;
+      top: 0;
+    }
 
-      > div {
-        @include size(100%, 0);
-        bottom: 0;
-        left: 0;
-      }
+    &.right,
+    &.right > div {
+      right: 0;
+      top: 0;
+    }
+
+    &.bottom,
+    &.bottom > div {
+      bottom: 0;
+      right: 0;
+    }
+
+    &.left,
+    &.left > div {
+      bottom: 0;
+      left: 0;
     }
   }
 

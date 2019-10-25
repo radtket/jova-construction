@@ -10,13 +10,12 @@
     padding: 70px 0 95px;
 
     .logo {
+      @include size(107px, 32px);
       background: $url-32 no-repeat 0 0;
       display: block;
       float: right;
-      height: 32px;
       margin-bottom: 17px;
-      text-indent: -5000px;
-      width: 107px;
+      text-indent: $text-indent-hack;
     }
 
     .blocks {
@@ -38,8 +37,8 @@
           padding: 30px 25px;
 
           h2 {
-            @include position(absolute, 7px 10px null null);
             @extend %font-style-3;
+            @include position(absolute, 7px 10px null null);
             display: block;
           }
         }
@@ -171,10 +170,9 @@
 
     .copyright,
     .credits {
-      bottom: 33px;
+      @include position(absolute, 0 null 33px);
       font-family: $font-family-roboto;
       font-size: 13px;
-      position: absolute;
     }
 
     .copyright {

@@ -39,11 +39,10 @@
   }
 
   .bg {
+    @include size($slider-buttons-width, 100%);
     @include position(absolute, 0 0 null null);
     background: $url-6 repeat-x 0 center;
     display: block;
-    height: 100%;
-    width: $slider-buttons-width;
   }
 
   &.inverted {

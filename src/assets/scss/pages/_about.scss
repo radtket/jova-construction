@@ -52,9 +52,7 @@
         }
 
         .card-container {
-          position: absolute;
-          right: 18.18%;
-          top: 450px;
+          @include position(absolute, 450px 18.18% null null);
           width: 625px;
           z-index: 10;
 
@@ -63,10 +61,8 @@
 
             .small {
               @extend %font-style-3;
+              @include position(absolute, 7px null null 10px);
               display: block;
-              left: 10px;
-              position: absolute;
-              top: 7px;
             }
 
             .big {
@@ -91,8 +87,10 @@
             }
           }
 
-          > div > div {
-            width: 577px;
+          > div {
+            > div {
+              width: 577px;
+            }
           }
 
           .content > * {
@@ -108,13 +106,11 @@
         }
 
         .img {
+          @include position(absolute, 420px 0 null null);
           @include transition(opacity 0.95s);
           filter: alpha(opacity=0);
           height: auto;
           opacity: 0;
-          position: absolute;
-          right: 0;
-          top: 420px;
           width: 50%;
           z-index: 1;
 
@@ -128,24 +124,23 @@
 
     #block1 {
       > .centered {
-        .icon-1 {
+        .icon-1,
+        .icon-2 {
+          @include size(16px, 36px);
           background: $url-16 no-repeat 0 0;
-          height: 36px;
-          margin-right: -10px;
           position: absolute;
+        }
+
+        .icon-1 {
+          margin-right: -10px;
           right: 18.18%;
           top: -340px;
-          width: 16px;
         }
 
         .icon-2 {
-          background: $url-16 no-repeat 0 0;
-          height: 36px;
           left: 9.09%;
           margin-left: -4px;
-          position: absolute;
           top: -110px;
-          width: 16px;
         }
 
         img {
@@ -203,52 +198,51 @@
         }
 
         .icon-1 {
+          @include position(absolute, 345px null null 9.09%);
+          @include size(16px, 36px);
           background: $url-16 no-repeat 0 0;
-          height: 36px;
-          left: 9.09%;
           margin-left: -4px;
-          position: absolute;
-          top: 345px;
-          width: 16px;
         }
       }
     }
 
-    #block3 > .centered {
-      .card-container {
-        right: 0;
-        top: 450px;
-        width: 500px;
+    #block3 {
+      > .centered {
+        .card-container {
+          @include position(absolute, 450px 0 null null);
+          width: 500px;
 
-        > div > div {
-          width: 452px;
+          > div {
+            > div {
+              width: 452px;
+            }
+          }
         }
-      }
 
-      .img {
-        right: 27.27%;
-        top: 580px;
-        width: 54.54%;
-      }
+        .img {
+          right: 27.27%;
+          top: 580px;
+          width: 54.54%;
+        }
 
-      .icon-1 {
-        background: $url-16 no-repeat 0 0;
-        height: 36px;
-        left: 18.18%;
-        margin-left: -4px;
-        position: absolute;
-        top: -30px;
-        width: 16px;
-      }
+        .icon-1,
+        .icon-2 {
+          @include size(16px, 36px);
+          background: $url-16 no-repeat 0 0;
+          position: absolute;
+        }
 
-      .icon-2 {
-        background: $url-16 no-repeat 0 0;
-        height: 36px;
-        margin-right: -10px;
-        position: absolute;
-        right: -9.09%;
-        top: 0;
-        width: 16px;
+        .icon-1 {
+          left: 18.18%;
+          margin-left: -4px;
+          top: -30px;
+        }
+
+        .icon-2 {
+          margin-right: -10px;
+          right: -9.09%;
+          top: 0;
+        }
       }
     }
   }

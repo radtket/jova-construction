@@ -30,19 +30,21 @@
           margin-top: 13px;
         }
 
+        .icon-1,
         .icon-2 {
           background: $url-14 no-repeat 0 0;
-          bottom: 275px;
-          left: -33.33%;
-          margin-left: -$parallax-icon-size / 2;
           position: absolute;
         }
 
         .icon-1 {
-          background: $url-14 no-repeat 0 0;
-          position: absolute;
           right: -$parallax-icon-size / 2;
           top: -195px;
+        }
+
+        .icon-2 {
+          bottom: 275px;
+          left: -33.33%;
+          margin-left: -$parallax-icon-size / 2;
         }
       }
     }
@@ -89,29 +91,25 @@
               }
 
               > h2 {
-                height: 95px;
+                @include size(100%, 95px);
                 position: relative;
-                width: 100%;
 
                 span {
-                  bottom: 17px;
+                  @include position(absolute, null null 17px 25px);
                   display: block;
                   font-family: $font-family-oswald;
                   font-size: 14px;
-                  left: 25px;
                   letter-spacing: $letter-spacing-large;
                   line-height: 21px;
-                  position: absolute;
                   text-transform: uppercase;
                 }
               }
 
               > h3 {
+                @include size(140px, 120px);
                 float: left;
-                height: 120px;
                 overflow: hidden;
                 position: relative;
-                width: 140px;
 
                 > span {
                   transition-delay: 1.35s;
@@ -207,9 +205,7 @@
             }
 
             .card-container {
-              bottom: -60px;
-              position: absolute;
-              right: 0;
+              @include position(absolute, null 0 -60px null);
               width: 500px;
 
               .content > h3 {
@@ -231,9 +227,7 @@
           width: 45%;
 
           > .card-container {
-            left: 31px;
-            position: absolute;
-            top: 31px;
+            @include position(absolute, 31px null null 31px);
             width: 557px;
 
             h2 {
@@ -297,9 +291,7 @@
           }
 
           > .card-container {
-            bottom: 31px;
-            position: absolute;
-            right: 31px;
+            @include position(absolute, null 31px 31px null);
             width: 557px;
 
             > div {
@@ -423,7 +415,7 @@
         background: $url-4 no-repeat 0 0;
         display: block;
         height: 118px;
-        text-indent: -5000px;
+        text-indent: $text-indent-hack;
       }
 
       .btn-lang {
@@ -595,12 +587,7 @@
         opacity: 1;
       }
 
-      .btn-previous {
-        .small {
-          color: $color-rangoon-green;
-        }
-      }
-
+      .btn-previous,
       .btn-next {
         .small {
           color: $color-rangoon-green;
@@ -621,7 +608,6 @@
         @include position(absolute, 7px null null 10px);
         color: transparent;
         display: block;
-        position: absolute;
       }
 
       &:hover {
@@ -630,11 +616,10 @@
     }
 
     .btn-next {
+      @include size($slider-buttons-width, 130px);
       @include position(absolute, null 0 0 null);
       background: $url-2 repeat-x center 54px;
       display: block;
-      height: 130px;
-      width: $slider-buttons-width;
 
       .small {
         @extend %font-style-3;

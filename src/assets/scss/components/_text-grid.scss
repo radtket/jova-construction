@@ -18,10 +18,9 @@
     }
 
     > div {
+      @include size(9.09%, 100px);
       float: left;
-      height: 100px;
       position: relative;
-      width: 9.09%;
 
       &.white {
         > span {

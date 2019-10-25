@@ -63,7 +63,7 @@ $header-button--z-index: 800;
       background: $c-white $url-11 no-repeat center center;
       display: block;
       position: relative;
-      text-indent: -5000px;
+      text-indent: $text-indent-hack;
       transform-origin: 0 50%;
       transform-style: preserve-3d;
 
@@ -74,7 +74,7 @@ $header-button--z-index: 800;
         background: $color-storm-dust $url-11 no-repeat center center;
         content: attr(data-hover);
         display: block;
-        text-indent: -5000px;
+        text-indent: $text-indent-hack;
         transform: rotatey(90deg);
         transform-origin: inherit;
       }
