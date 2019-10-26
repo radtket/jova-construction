@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import imagesLoaded from 'imagesLoaded';
 import anime from 'animejs/lib/anime.es.js';
 import $ from 'jquery';
@@ -5,18 +7,15 @@ import {
 	addClass,
 	isLoaded,
 	hasClass,
-	scrollIt,
-	innerDemensions,
 	getOffsetTop,
 	fadeOut,
 	fadeIn,
 } from './helpers';
 import InfiniteSlider from './jquery/infiniteSlider';
 import InfiniteSliderHome from './jquery/infiniteSliderHome';
-import triggerScroll from './jquery/triggerScroll';
 
 // Pages
-import initHome from './pages/home';
+import { initHome, showHideHeader } from './pages/home';
 import initAbout from './pages/about';
 import initTips from './pages/tips';
 import initServices from './pages/services';
@@ -25,6 +24,7 @@ import {
 	initPortfolioCards,
 	initPortfolioCardsText,
 } from './pages/portfolio';
+import { initContact, adjustContactSectors } from './pages/contact';
 
 // Elements
 const $btnHeader = document.querySelector('#header_btn-menu');
@@ -343,30 +343,6 @@ const parallaxIcons = () => {
 	});
 };
 
-// Show/Hide Header
-const showHideHeader = () => {
-	const tempHead = document.querySelector('#homepage #block1 .card-container');
-	if (tempHead) {
-		const isHeaderInViewport =
-			window.scrollY < getOffsetTop(tempHead) + tempHead.offsetHeight;
-		const headerIsOpen = hasClass($header, 'opened');
-
-		// Hide Header
-		if (isHeaderInViewport) {
-			addClass('#header_btn-menu', 'no-menu');
-
-			if (headerIsOpen) {
-				$header.click();
-			}
-		}
-
-		// Show Header
-		else if (!headerIsOpen) {
-			$btnHeader.classList.remove('no-menu');
-		}
-	}
-};
-
 // Demask Footer
 const demaskFooter = () => {
 	const totalScroll = $body.scrollHeight - window.innerHeight;
@@ -549,6 +525,8 @@ function positionContent() {
 	fullHeight();
 	// Adjust Text Grids
 	adjustTextGrids();
+	adjustContactSectors();
+
 	initPortfolioCards();
 
 	// Services Adjust Columns Height
@@ -593,11 +571,13 @@ window.onload = initTips();
 window.onLoad = initAbout($about);
 window.onload = addClass('#slider-container-squares', 't-translate');
 window.onload = initServices();
+window.onload = initContact();
 window.onload = initPortfolio();
 window.onload = positionContent();
 window.onload = jqOnLoad();
 
 document.addEventListener('readystatechange', event => {
+	console.log({ event });
 	if (document.readyState === 'complete') {
 		window.scrollTo({
 			top: 0,

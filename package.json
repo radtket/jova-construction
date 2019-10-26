@@ -14,8 +14,10 @@
 		"animejs": "^3.1.0",
 		"auto-bind": "^2.1.1",
 		"bourbon": "^6.0.0",
+		"dotenv": "^8.2.0",
 		"imagesloaded": "^4.1.4",
-		"jquery": "^1.11.1"
+		"jquery": "^1.11.1",
+		"load-google-maps-api": "^2.0.1"
 	},
 	"devDependencies": {
 		"@babel/preset-env": "^7.4.3",
