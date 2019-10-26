@@ -625,8 +625,8 @@ hr {
       color: #1d1d1d; }
 
 .no-anim * {
-  transition-delay: 0s !important;
-  transition-duration: 0s !important; }
+  transition-duration: 0s !important;
+  transition-delay: 0s !important; }
 
 .hover-effect-1 .effect {
   transition: all 0.45s ease-in-out;

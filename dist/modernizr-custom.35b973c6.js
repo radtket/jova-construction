@@ -117,74 +117,184 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
+})({"assets/js/modernizr-custom.js":[function(require,module,exports) {
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
+/*! modernizr 3.6.0 (Custom Build) | MIT *
+ * https://modernizr.com/download/?-svg-setclasses-shiv ! */
+!function (e, t, n) {
+  function a(e, t) {
+    return _typeof(e) === t;
   }
 
-  return bundleURL;
-}
+  function o() {
+    var e;
+    var t;
+    var n;
+    var o;
+    var r;
+    var c;
+    var l;
 
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+    for (var f in s) {
+      if (s.hasOwnProperty(f)) {
+        if (e = [], t = s[f], t.name && (e.push(t.name.toLowerCase()), t.options && t.options.aliases && t.options.aliases.length)) for (n = 0; n < t.options.aliases.length; n++) {
+          e.push(t.options.aliases[n].toLowerCase());
+        }
 
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
-  };
-
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-
-var cssTimeout = null;
-
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
+        for (o = a(t.fn, 'function') ? t.fn() : t.fn, r = 0; r < e.length; r++) {
+          c = e[r], l = c.split('.'), l.length === 1 ? Modernizr[l[0]] = o : (!Modernizr[l[0]] || Modernizr[l[0]] instanceof Boolean || (Modernizr[l[0]] = new Boolean(Modernizr[l[0]])), Modernizr[l[0]][l[1]] = o), i.push((o ? '' : 'no-') + l.join('-'));
+        }
       }
     }
+  }
 
-    cssTimeout = null;
-  }, 50);
-}
+  function r(e) {
+    var t = l.className;
+    var n = Modernizr._config.classPrefix || '';
 
-module.exports = reloadCSS;
-},{"./bundle-url":"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+    if (f && (t = t.baseVal), Modernizr._config.enableJSClass) {
+      var a = new RegExp('(^|\\s)' + n + 'no-js(\\s|$)');
+      t = t.replace(a, '$1' + n + 'js$2');
+    }
+
+    Modernizr._config.enableClasses && (t += ' ' + n + e.join(' ' + n), f ? l.className.baseVal = t : l.className = t);
+  }
+
+  var i = [];
+  var s = [];
+  var c = {
+    _version: '3.6.0',
+    _config: {
+      classPrefix: '',
+      enableClasses: !0,
+      enableJSClass: !0,
+      usePrefixes: !0
+    },
+    _q: [],
+    on: function on(e, t) {
+      var n = this;
+      setTimeout(function () {
+        t(n[e]);
+      }, 0);
+    },
+    addTest: function addTest(e, t, n) {
+      s.push({
+        name: e,
+        fn: t,
+        options: n
+      });
+    },
+    addAsyncTest: function addAsyncTest(e) {
+      s.push({
+        name: null,
+        fn: e
+      });
+    }
+  };
+
+  var Modernizr = function Modernizr() {};
+
+  Modernizr.prototype = c, Modernizr = new Modernizr(), Modernizr.addTest('svg', !!t.createElementNS && !!t.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
+  var l = t.documentElement;
+  var f = l.nodeName.toLowerCase() === 'svg';
+  f || !function (e, t) {
+    function n(e, t) {
+      var n = e.createElement('p');
+      var a = e.getElementsByTagName('head')[0] || e.documentElement;
+      return n.innerHTML = 'x<style>' + t + '</style>', a.insertBefore(n.lastChild, a.firstChild);
+    }
+
+    function a() {
+      var e = E.elements;
+      return typeof e === 'string' ? e.split(' ') : e;
+    }
+
+    function o(e, t) {
+      var n = E.elements;
+      typeof n !== 'string' && (n = n.join(' ')), typeof e !== 'string' && (e = e.join(' ')), E.elements = n + ' ' + e, l(t);
+    }
+
+    function r(e) {
+      var t = y[e[g]];
+      return t || (t = {}, v++, e[g] = v, y[v] = t), t;
+    }
+
+    function i(e, n, a) {
+      if (n || (n = t), u) return n.createElement(e);
+      a || (a = r(n));
+      var o;
+      return o = a.cache[e] ? a.cache[e].cloneNode() : p.test(e) ? (a.cache[e] = a.createElem(e)).cloneNode() : a.createElem(e), !o.canHaveChildren || h.test(e) || o.tagUrn ? o : a.frag.appendChild(o);
+    }
+
+    function s(e, n) {
+      if (e || (e = t), u) return e.createDocumentFragment();
+      n = n || r(e);
+
+      for (var o = n.frag.cloneNode(), i = 0, s = a(), c = s.length; c > i; i++) {
+        o.createElement(s[i]);
+      }
+
+      return o;
+    }
+
+    function c(e, t) {
+      t.cache || (t.cache = {}, t.createElem = e.createElement, t.createFrag = e.createDocumentFragment, t.frag = t.createFrag()), e.createElement = function (n) {
+        return E.shivMethods ? i(n, e, t) : t.createElem(n);
+      }, e.createDocumentFragment = Function('h,f', 'return function(){var n=f.cloneNode(),c=n.createElement;h.shivMethods&&(' + a().join().replace(/[\w\-:]+/g, function (e) {
+        return t.createElem(e), t.frag.createElement(e), 'c("' + e + '")';
+      }) + ');return n}')(E, t.frag);
+    }
+
+    function l(e) {
+      e || (e = t);
+      var a = r(e);
+      return !E.shivCSS || f || a.hasCSS || (a.hasCSS = !!n(e, 'article,aside,dialog,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}mark{background:#FF0;color:#000}template{display:none}')), u || c(e, a), e;
+    }
+
+    var f;
+    var u;
+    var d = '3.7.3';
+    var m = e.html5 || {};
+    var h = /^<|^(?:button|map|select|textarea|object|iframe|option|optgroup)$/i;
+    var p = /^(?:a|b|code|div|fieldset|h1|h2|h3|h4|h5|h6|i|label|li|ol|p|q|span|strong|style|table|tbody|td|th|tr|ul)$/i;
+    var g = '_html5shiv';
+    var v = 0;
+    var y = {};
+    !function () {
+      try {
+        var e = t.createElement('a');
+        e.innerHTML = '<xyz></xyz>', f = 'hidden' in e, u = e.childNodes.length == 1 || function () {
+          t.createElement('a');
+          var e = t.createDocumentFragment();
+          return typeof e.cloneNode === 'undefined' || typeof e.createDocumentFragment === 'undefined' || typeof e.createElement === 'undefined';
+        }();
+      } catch (n) {
+        f = !0, u = !0;
+      }
+    }();
+    var E = {
+      elements: m.elements || 'abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output picture progress section summary template time video',
+      version: d,
+      shivCSS: m.shivCSS !== !1,
+      supportsUnknownElements: u,
+      shivMethods: m.shivMethods !== !1,
+      type: 'default',
+      shivDocument: l,
+      createElement: i,
+      createDocumentFragment: s,
+      addElements: o
+    };
+    e.html5 = E, l(t), (typeof module === "undefined" ? "undefined" : _typeof(module)) === 'object' && module.exports && (module.exports = E);
+  }(typeof e !== 'undefined' ? e : this, t), o(), r(i), delete c.addTest, delete c.addAsyncTest;
+
+  for (var u = 0; u < Modernizr._q.length; u++) {
+    Modernizr._q[u]();
+  }
+
+  e.Modernizr = Modernizr;
+}(window, document);
+},{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -388,5 +498,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
-//# sourceMappingURL=/services-offered.js.map
+},{}]},{},["../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","assets/js/modernizr-custom.js"], null)
+//# sourceMappingURL=/modernizr-custom.35b973c6.js.map

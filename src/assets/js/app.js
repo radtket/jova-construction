@@ -11,19 +11,31 @@ import {
 	fadeOut,
 	fadeIn,
 } from './helpers';
-import InfiniteSlider from './jquery/infiniteSlider';
+
 import InfiniteSliderHome from './jquery/infiniteSliderHome';
 
 // Pages
 import { initHome, showHideHeader } from './pages/home';
 import initAbout from './pages/about';
-import initTips from './pages/tips';
-import initServices from './pages/services';
+import {
+	initTips,
+	initTipsSlider,
+	tipsSidebar,
+	positionSliderImages,
+} from './pages/tips';
+
+import {
+	initServices,
+	adjustServiceBlocks,
+	verticalAlign,
+} from './pages/services';
+
 import {
 	initPortfolio,
 	initPortfolioCards,
 	initPortfolioCardsText,
 } from './pages/portfolio';
+
 import { initContact, adjustContactSectors } from './pages/contact';
 
 // Elements
@@ -33,6 +45,7 @@ const $scrollButton = document.querySelector('.btn-scroll-down');
 const $wrapper = document.querySelector('#wrapper');
 const $footer = document.querySelector('#footer');
 const $body = document.querySelector('body');
+
 let isAnimationRunning = false;
 let aboutTimeout;
 
@@ -202,25 +215,7 @@ const infiniteSliderSquares = new InfiniteSliderHome(
 	true
 );
 
-Array.from(document.querySelectorAll('#tips .slider-container')).forEach(
-	item => {
-		const numberOfSlides = item.querySelectorAll('.slider > ul > li');
-
-		if (numberOfSlides.length > 1) {
-			new InfiniteSlider(
-				item,
-				1500,
-				4000,
-				'slide',
-				'easeInOutQuint',
-				false,
-				false
-			);
-		} else {
-			addClass(item, 'disabled');
-		}
-	}
-);
+initTipsSlider();
 
 const scrollSliderSquares = () => {
 	const windowHeight = window.innerHeight;
@@ -424,41 +419,7 @@ function scrollContent() {
 	}
 
 	// Tips - Sidebar
-	const sidebar = $('#tips .sidebar');
-	const sidebarHeight = sidebar.height();
-	const sidebarOffset = parseInt(sidebar.css('top'), 10);
-
-	const one = newScroll + sidebarHeight + sidebarOffset;
-	const two = $('#tips #block1').height() - 210;
-
-	const sidebarTransform =
-		one > two
-			? newScroll - (newScroll + sidebarHeight + sidebarOffset - two)
-			: newScroll;
-
-	sidebar.css({
-		transform: `translate(0, ${sidebarTransform}px)`,
-		'-webkit-transform': `translate(0, ${sidebarTransform}px)`,
-	});
-
-	const tipsListing = $('#tips #block1 .listing');
-	const sidebarNav = $('#tips #block1 .sidebar ul');
-	const activeNavItem = $('> li.active', sidebarNav);
-	const currentIndex = activeNavItem.index();
-	let newIndex = currentIndex;
-
-	$('> li', tipsListing).each(function() {
-		if (newScroll + $('window').height() / 2 > $(this).offset().top) {
-			newIndex = $(this).index();
-		}
-	});
-
-	if (newIndex !== currentIndex) {
-		activeNavItem.removeClass('active');
-		$('> li', sidebarNav)
-			.eq(newIndex)
-			.addClass('active');
-	}
+	tipsSidebar();
 
 	initToLoad();
 
@@ -526,25 +487,14 @@ function positionContent() {
 	// Adjust Text Grids
 	adjustTextGrids();
 	adjustContactSectors();
-
 	initPortfolioCards();
 
 	// Services Adjust Columns Height
-	$('#services #block3 .left-block > div').height(
-		$('#services #block3 .right-block > div').height()
-	);
+	adjustServiceBlocks();
+	verticalAlign();
 
 	// Tips
-	const $tips = document.querySelectorAll(
-		'#tips .slider-container > .slider > ul > li > div > div'
-	);
-
-	if ($tips) {
-		Array.from($tips).forEach(item => {
-			const { offsetWidth } = item.querySelector('img');
-			item.style.width = `${offsetWidth - 1}px`;
-		});
-	}
+	positionSliderImages();
 }
 
 window.addEventListener(
@@ -575,6 +525,8 @@ window.onload = initContact();
 window.onload = initPortfolio();
 window.onload = positionContent();
 window.onload = jqOnLoad();
+
+window.onresize = positionContent();
 
 document.addEventListener('readystatechange', event => {
 	console.log({ event });
