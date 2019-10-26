@@ -191,3 +191,18 @@ export const show = elem => {
 export const hide = elem => {
 	elem.style.display = 'none';
 };
+
+export const innerDemensions = node => {
+	const {
+		paddingTop,
+		paddingBottom,
+		paddingLeft,
+		paddingRight,
+	} = getComputedStyle(node);
+	const { clientHeight, clientWidth } = node;
+
+	return {
+		height: clientHeight - (parseFloat(paddingTop) + parseFloat(paddingBottom)),
+		width: clientWidth - (parseFloat(paddingLeft) + parseFloat(paddingRight)),
+	};
+};

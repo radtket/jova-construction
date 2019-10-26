@@ -6,6 +6,7 @@ import {
 	isLoaded,
 	hasClass,
 	scrollIt,
+	innerDemensions,
 	getOffsetTop,
 	fadeOut,
 	fadeIn,
@@ -19,6 +20,11 @@ import initHome from './pages/home';
 import initAbout from './pages/about';
 import initTips from './pages/tips';
 import initServices from './pages/services';
+import {
+	initPortfolio,
+	initPortfolioCards,
+	initPortfolioCardsText,
+} from './pages/portfolio';
 
 // Elements
 const $btnHeader = document.querySelector('#header_btn-menu');
@@ -543,6 +549,7 @@ function positionContent() {
 	fullHeight();
 	// Adjust Text Grids
 	adjustTextGrids();
+	initPortfolioCards();
 
 	// Services Adjust Columns Height
 	$('#services #block3 .left-block > div').height(
@@ -575,13 +582,18 @@ const jqOnLoad = () => {
 };
 
 $btnHeader.addEventListener('click', openHeaderMenu);
-$header.addEventListener('click', closeHeaderMenu);
+
+if ($header) {
+	$header.addEventListener('click', closeHeaderMenu);
+}
+
 window.onload = initHome();
 window.onload = initGallery();
 window.onload = initTips();
 window.onLoad = initAbout($about);
 window.onload = addClass('#slider-container-squares', 't-translate');
 window.onload = initServices();
+window.onload = initPortfolio();
 window.onload = positionContent();
 window.onload = jqOnLoad();
 
@@ -591,6 +603,9 @@ document.addEventListener('readystatechange', event => {
 			top: 0,
 			behavior: 'smooth',
 		});
+
+		initPortfolioCardsText();
+
 		scrollContent();
 		$wrapper.style.paddingBottom = `${$footer.offsetHeight}px`;
 	}

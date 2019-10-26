@@ -96,6 +96,8 @@ $url-13: url('../images/layout/header_cursor.png');
 $url-14: url('../images/layout/icon_1.png');
 $url-15: url('../images/layout/home_signature.png');
 $url-17: url('../images/layout/about_signature.png');
+$url-18: url('../images/layout/icon_4.png');
+$url-19: url('../images/layout/portfolio_icon-door.png');
 $url-20: url('../images/layout/icon_2.png');
 $url-21: url('../images/layout/bullet_dash.png');
 $url-22: url('../images/layout/icon_2-dark.png');
@@ -115,4 +117,18 @@ $url-32: url('../images/layout/footer_logo.png');
   filter: alpha(opacity=0);
   opacity: 0;
   position: relative;
+}
+
+%extend-3 {
+  @include transition(opacity 0.45s ease-in-out 1.25s);
+  display: block;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  position: relative;
+}
+
+%extend-4 {
+  @include transition(opacity 0.45s ease-in-out 0.75s);
+  filter: alpha(opacity=0);
+  opacity: 0;
 }
