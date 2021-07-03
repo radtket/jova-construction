@@ -98,6 +98,80 @@ function closeHeaderMenu({ target: { nodeName } }) {
 	}
 }
 
+function btnOpenEvent(e) {
+	e.preventDefault();
+	const { parentElement } = this;
+	const container = this.closest('.card-container');
+	const closeButton = container.querySelector('.btn-infos-close');
+	const wrapper = container.querySelector('div:first-child > div');
+
+	if (!isAnimationRunning) {
+		isAnimationRunning = true;
+		fadeOut(parentElement);
+		fadeIn(closeButton);
+		wrapper.style.width = 'auto';
+
+		anime({
+			targets: container,
+			width: 585,
+			easing: 'easeInQuad',
+			duration: 450,
+			complete(anim) {
+				const { offsetHeight } = container.querySelector('.infos > .text');
+				anim.finished.then(() => {
+					anime({
+						targets: container.querySelector('.infos'),
+						height: offsetHeight,
+						easing: 'easeInQuad',
+						duration: 550,
+						complete(ani) {
+							ani.finished.then(() => {
+								isAnimationRunning = false;
+							});
+						},
+					});
+				});
+			},
+		});
+	}
+}
+
+function btnCloseEvent(e) {
+	e.preventDefault();
+	const { parentElement } = this;
+	const container = this.closest('.card-container');
+	const openButton = container.querySelector('.btn-infos');
+	const wrapper = container.querySelector('div:first-child > div');
+
+	if (!isAnimationRunning) {
+		isAnimationRunning = true;
+		fadeOut(parentElement);
+		fadeIn(openButton);
+
+		anime({
+			targets: container.querySelector('.infos'),
+			height: 0,
+			easing: 'easeOutQuad',
+			duration: 550,
+			complete(anim) {
+				anim.finished.then(() => {
+					anime({
+						targets: container,
+						width: 480,
+						easing: 'easeOutQuad',
+						duration: 450,
+						complete(ani) {
+							ani.finished.then(() => {
+								wrapper.style.width = 'auto';
+								isAnimationRunning = false;
+							});
+						},
+					});
+				});
+			},
+		});
+	}
+}
 const initGallery = () => {
 	const $cardContainer = document.querySelector(
 		'#slider-container-squares .card-container'
@@ -117,84 +191,11 @@ const initGallery = () => {
 		}
 
 		if ($btnInfosOpen) {
-			$btnInfosOpen.addEventListener('click', function(e) {
-				e.preventDefault();
-				const { parentElement } = this;
-				const container = this.closest('.card-container');
-				const closeButton = container.querySelector('.btn-infos-close');
-				const wrapper = container.querySelector('div:first-child > div');
-
-				if (!isAnimationRunning) {
-					isAnimationRunning = true;
-					fadeOut(parentElement);
-					fadeIn(closeButton);
-					wrapper.style.width = 'auto';
-
-					anime({
-						targets: container,
-						width: 585,
-						easing: 'easeInQuad',
-						duration: 450,
-						complete(anim) {
-							const { offsetHeight } = container.querySelector(
-								'.infos > .text'
-							);
-							anim.finished.then(() => {
-								anime({
-									targets: container.querySelector('.infos'),
-									height: offsetHeight,
-									easing: 'easeInQuad',
-									duration: 550,
-									complete(ani) {
-										ani.finished.then(() => {
-											isAnimationRunning = false;
-										});
-									},
-								});
-							});
-						},
-					});
-				}
-			});
+			$btnInfosOpen.addEventListener('click', btnOpenEvent);
 		}
 
 		if ($btnInfosClose) {
-			$btnInfosClose.addEventListener('click', function(e) {
-				e.preventDefault();
-				const { parentElement } = this;
-				const container = this.closest('.card-container');
-				const openButton = container.querySelector('.btn-infos');
-				const wrapper = container.querySelector('div:first-child > div');
-
-				if (!isAnimationRunning) {
-					isAnimationRunning = true;
-					fadeOut(parentElement);
-					fadeIn(openButton);
-
-					anime({
-						targets: container.querySelector('.infos'),
-						height: 0,
-						easing: 'easeOutQuad',
-						duration: 550,
-						complete(anim) {
-							anim.finished.then(() => {
-								anime({
-									targets: container,
-									width: 480,
-									easing: 'easeOutQuad',
-									duration: 450,
-									complete(ani) {
-										ani.finished.then(() => {
-											wrapper.style.width = 'auto';
-											isAnimationRunning = false;
-										});
-									},
-								});
-							});
-						},
-					});
-				}
-			});
+			$btnInfosClose.addEventListener('click', btnCloseEvent);
 		}
 
 		return setTimeout(() => {

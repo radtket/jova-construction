@@ -117,9 +117,9 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
+})({"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
 
-},{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
+},{}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -328,7 +328,7 @@ process.chdir = function (dir) {
 process.umask = function () {
   return 0;
 };
-},{}],"../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/path-browserify/index.js":[function(require,module,exports) {
+},{}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/path-browserify/index.js":[function(require,module,exports) {
 var process = require("process");
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -633,7 +633,7 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-},{"process":"../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/dotenv/lib/main.js":[function(require,module,exports) {
+},{"process":"../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/dotenv/lib/main.js":[function(require,module,exports) {
 var process = require("process");
 /*::
 
@@ -764,7 +764,7 @@ function config(options
 
 module.exports.config = config;
 module.exports.parse = parse;
-},{"fs":"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/_empty.js","path":"../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/path-browserify/index.js","process":"../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/ev-emitter/ev-emitter.js":[function(require,module,exports) {
+},{"fs":"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/_empty.js","path":"../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/path-browserify/index.js","process":"../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/ev-emitter/ev-emitter.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 /**
@@ -14022,13 +14022,17 @@ exports.fadeIn = fadeIn;
 exports.scrollIt = scrollIt;
 exports.innerDemensions = exports.hide = exports.show = exports.getElementIndex = exports.getOffsetTop = exports.isLoaded = exports.addClass = exports.hasClass = void 0;
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 var hasClass = function hasClass(target, className) {
   return new RegExp("(\\s|^)".concat(className, "(\\s|$)")).test(target.className);
@@ -14561,9 +14565,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var InfiniteSliderHome =
-/*#__PURE__*/
-function () {
+var InfiniteSliderHome = /*#__PURE__*/function () {
   function InfiniteSliderHome(wrapperArg, speedArg, durationArg, modeArg, easingArg, hoverArg, animationArg) {
     _classCallCheck(this, InfiniteSliderHome);
 
@@ -15043,9 +15045,9 @@ var _helpers = require("../helpers");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -15055,9 +15057,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var InfiniteSlider =
-/*#__PURE__*/
-function () {
+var InfiniteSlider = /*#__PURE__*/function () {
   function InfiniteSlider(wrapperArg, speedArg, durationArg, modeArg, easingArg, hoverArg, animationArg) {
     _classCallCheck(this, InfiniteSlider);
 
@@ -15674,8 +15674,12 @@ var initPortfolioCardsText = function initPortfolioCardsText() {
 
   if ($portfolioCards) {
     $portfolioCards.forEach(function (item) {
-      var h2 = item.querySelector('h2').offsetWidth;
-      var h3 = item.querySelector('h3').offsetWidth;
+      var _item$querySelector = item.querySelector('h2'),
+          h2 = _item$querySelector.offsetWidth;
+
+      var _item$querySelector2 = item.querySelector('h3'),
+          h3 = _item$querySelector2.offsetWidth;
+
       item.style.width = "".concat(h2 + h3 + 1, "px");
     });
   }
@@ -15763,7 +15767,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var initializeMap = function initializeMap(lat, lng, mapID) {
   return (0, _loadGoogleMapsApi.default)({
-    key: "AIzaSyA-ru_uWY37xLv0qJ7ceWstneow70_nqXA"
+    key: undefined
   }).then(function (googleMaps) {
     var map = new googleMaps.Map(document.getElementById(mapID), {
       center: {
@@ -15869,12 +15873,12 @@ var initializeMap = function initializeMap(lat, lng, mapID) {
     new googleMaps.Size(47, 93), // The origin for this image is 0,0.
     new googleMaps.Point(0, 0), // The anchor for this image is the base of the flagpole at 0,32.
     new googleMaps.Point(23, 46));
-    var marker = new googleMaps.Marker({
+    googleMaps.Marker({
       position: new googleMaps.LatLng(lat, lng),
       map: map,
       icon: icon
     });
-    var resize = new googleMaps.event.addDomListener(window, 'resize', function () {
+    googleMaps.event.addDomListener(window, 'resize', function () {
       var position = new googleMaps.LatLng(lat, lng);
       map.setCenter(position);
     });
@@ -15899,14 +15903,14 @@ var adjustContactSectors = function adjustContactSectors() {
       var sectors = item.querySelectorAll('.sectors');
 
       if (ul) {
-        ul.forEach(function (zzz) {
-          zzz.style.height = "".concat(rBlockUlHeight, "px");
+        ul.forEach(function (ele) {
+          ele.style.height = "".concat(rBlockUlHeight, "px");
         });
       }
 
       if (sectors) {
-        sectors.forEach(function (zzz) {
-          zzz.style.height = "".concat(rBlockSectorHeight, "px");
+        sectors.forEach(function (ele) {
+          ele.style.height = "".concat(rBlockSectorHeight, "px");
         });
       }
     });
@@ -16029,6 +16033,81 @@ function closeHeaderMenu(_ref) {
   }
 }
 
+function btnOpenEvent(e) {
+  e.preventDefault();
+  var parentElement = this.parentElement;
+  var container = this.closest('.card-container');
+  var closeButton = container.querySelector('.btn-infos-close');
+  var wrapper = container.querySelector('div:first-child > div');
+
+  if (!isAnimationRunning) {
+    isAnimationRunning = true;
+    (0, _helpers.fadeOut)(parentElement);
+    (0, _helpers.fadeIn)(closeButton);
+    wrapper.style.width = 'auto';
+    (0, _animeEs.default)({
+      targets: container,
+      width: 585,
+      easing: 'easeInQuad',
+      duration: 450,
+      complete: function complete(anim) {
+        var _container$querySelec = container.querySelector('.infos > .text'),
+            offsetHeight = _container$querySelec.offsetHeight;
+
+        anim.finished.then(function () {
+          (0, _animeEs.default)({
+            targets: container.querySelector('.infos'),
+            height: offsetHeight,
+            easing: 'easeInQuad',
+            duration: 550,
+            complete: function complete(ani) {
+              ani.finished.then(function () {
+                isAnimationRunning = false;
+              });
+            }
+          });
+        });
+      }
+    });
+  }
+}
+
+function btnCloseEvent(e) {
+  e.preventDefault();
+  var parentElement = this.parentElement;
+  var container = this.closest('.card-container');
+  var openButton = container.querySelector('.btn-infos');
+  var wrapper = container.querySelector('div:first-child > div');
+
+  if (!isAnimationRunning) {
+    isAnimationRunning = true;
+    (0, _helpers.fadeOut)(parentElement);
+    (0, _helpers.fadeIn)(openButton);
+    (0, _animeEs.default)({
+      targets: container.querySelector('.infos'),
+      height: 0,
+      easing: 'easeOutQuad',
+      duration: 550,
+      complete: function complete(anim) {
+        anim.finished.then(function () {
+          (0, _animeEs.default)({
+            targets: container,
+            width: 480,
+            easing: 'easeOutQuad',
+            duration: 450,
+            complete: function complete(ani) {
+              ani.finished.then(function () {
+                wrapper.style.width = 'auto';
+                isAnimationRunning = false;
+              });
+            }
+          });
+        });
+      }
+    });
+  }
+}
+
 var initGallery = function initGallery() {
   var $cardContainer = document.querySelector('#slider-container-squares .card-container');
 
@@ -16046,82 +16125,11 @@ var initGallery = function initGallery() {
     }
 
     if ($btnInfosOpen) {
-      $btnInfosOpen.addEventListener('click', function (e) {
-        e.preventDefault();
-        var parentElement = this.parentElement;
-        var container = this.closest('.card-container');
-        var closeButton = container.querySelector('.btn-infos-close');
-        var wrapper = container.querySelector('div:first-child > div');
-
-        if (!isAnimationRunning) {
-          isAnimationRunning = true;
-          (0, _helpers.fadeOut)(parentElement);
-          (0, _helpers.fadeIn)(closeButton);
-          wrapper.style.width = 'auto';
-          (0, _animeEs.default)({
-            targets: container,
-            width: 585,
-            easing: 'easeInQuad',
-            duration: 450,
-            complete: function complete(anim) {
-              var _container$querySelec = container.querySelector('.infos > .text'),
-                  offsetHeight = _container$querySelec.offsetHeight;
-
-              anim.finished.then(function () {
-                (0, _animeEs.default)({
-                  targets: container.querySelector('.infos'),
-                  height: offsetHeight,
-                  easing: 'easeInQuad',
-                  duration: 550,
-                  complete: function complete(ani) {
-                    ani.finished.then(function () {
-                      isAnimationRunning = false;
-                    });
-                  }
-                });
-              });
-            }
-          });
-        }
-      });
+      $btnInfosOpen.addEventListener('click', btnOpenEvent);
     }
 
     if ($btnInfosClose) {
-      $btnInfosClose.addEventListener('click', function (e) {
-        e.preventDefault();
-        var parentElement = this.parentElement;
-        var container = this.closest('.card-container');
-        var openButton = container.querySelector('.btn-infos');
-        var wrapper = container.querySelector('div:first-child > div');
-
-        if (!isAnimationRunning) {
-          isAnimationRunning = true;
-          (0, _helpers.fadeOut)(parentElement);
-          (0, _helpers.fadeIn)(openButton);
-          (0, _animeEs.default)({
-            targets: container.querySelector('.infos'),
-            height: 0,
-            easing: 'easeOutQuad',
-            duration: 550,
-            complete: function complete(anim) {
-              anim.finished.then(function () {
-                (0, _animeEs.default)({
-                  targets: container,
-                  width: 480,
-                  easing: 'easeOutQuad',
-                  duration: 450,
-                  complete: function complete(ani) {
-                    ani.finished.then(function () {
-                      wrapper.style.width = 'auto';
-                      isAnimationRunning = false;
-                    });
-                  }
-                });
-              });
-            }
-          });
-        }
-      });
+      $btnInfosClose.addEventListener('click', btnCloseEvent);
     }
 
     return setTimeout(function () {
@@ -16420,7 +16428,7 @@ document.addEventListener('readystatechange', function (event) {
     $wrapper.style.paddingBottom = "".concat($footer.offsetHeight, "px");
   }
 });
-},{"dotenv":"../node_modules/dotenv/lib/main.js","imagesLoaded":"../node_modules/imagesLoaded/imagesloaded.js","animejs/lib/anime.es.js":"../node_modules/animejs/lib/anime.es.js","jquery":"../node_modules/jquery/dist/jquery.js","./helpers":"assets/js/helpers.js","./jquery/infiniteSliderHome":"assets/js/jquery/infiniteSliderHome.js","./pages/home":"assets/js/pages/home.js","./pages/about":"assets/js/pages/about.js","./pages/tips":"assets/js/pages/tips.js","./pages/services":"assets/js/pages/services.js","./pages/portfolio":"assets/js/pages/portfolio.js","./pages/contact":"assets/js/pages/contact.js"}],"../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"dotenv":"../node_modules/dotenv/lib/main.js","imagesLoaded":"../node_modules/imagesLoaded/imagesloaded.js","animejs/lib/anime.es.js":"../node_modules/animejs/lib/anime.es.js","jquery":"../node_modules/jquery/dist/jquery.js","./helpers":"assets/js/helpers.js","./jquery/infiniteSliderHome":"assets/js/jquery/infiniteSliderHome.js","./pages/home":"assets/js/pages/home.js","./pages/about":"assets/js/pages/about.js","./pages/tips":"assets/js/pages/tips.js","./pages/services":"assets/js/pages/services.js","./pages/portfolio":"assets/js/pages/portfolio.js","./pages/contact":"assets/js/pages/contact.js"}],"../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -16448,7 +16456,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64459" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49678" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -16624,5 +16632,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","assets/js/app.js"], null)
+},{}]},{},["../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","assets/js/app.js"], null)
 //# sourceMappingURL=/app.56908c73.js.map

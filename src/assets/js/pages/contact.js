@@ -96,20 +96,16 @@ const initializeMap = (lat, lng, mapID) => {
 				new googleMaps.Point(23, 46)
 			);
 
-			const marker = new googleMaps.Marker({
+			googleMaps.Marker({
 				position: new googleMaps.LatLng(lat, lng),
 				map,
 				icon,
 			});
 
-			const resize = new googleMaps.event.addDomListener(
-				window,
-				'resize',
-				() => {
-					const position = new googleMaps.LatLng(lat, lng);
-					map.setCenter(position);
-				}
-			);
+			googleMaps.event.addDomListener(window, 'resize', () => {
+				const position = new googleMaps.LatLng(lat, lng);
+				map.setCenter(position);
+			});
 		})
 		.catch(error => {
 			console.error(error);
@@ -141,14 +137,14 @@ export const adjustContactSectors = () => {
 			const sectors = item.querySelectorAll('.sectors');
 
 			if (ul) {
-				ul.forEach(zzz => {
-					zzz.style.height = `${rBlockUlHeight}px`;
+				ul.forEach(ele => {
+					ele.style.height = `${rBlockUlHeight}px`;
 				});
 			}
 
 			if (sectors) {
-				sectors.forEach(zzz => {
-					zzz.style.height = `${rBlockSectorHeight}px`;
+				sectors.forEach(ele => {
+					ele.style.height = `${rBlockSectorHeight}px`;
 				});
 			}
 		});

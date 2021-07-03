@@ -24,8 +24,8 @@ export const initPortfolioCardsText = () => {
 
 	if ($portfolioCards) {
 		$portfolioCards.forEach(item => {
-			const h2 = item.querySelector('h2').offsetWidth;
-			const h3 = item.querySelector('h3').offsetWidth;
+			const { offsetWidth: h2 } = item.querySelector('h2');
+			const { offsetWidth: h3 } = item.querySelector('h3');
 			item.style.width = `${h2 + h3 + 1}px`;
 		});
 	}
