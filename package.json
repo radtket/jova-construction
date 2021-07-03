@@ -16,7 +16,7 @@
 		"bourbon": "^6.0.0",
 		"dotenv": "^8.2.0",
 		"imagesloaded": "^4.1.4",
-		"jquery": "^1.11.1",
+		"jquery": "^3.5.0",
 		"load-google-maps-api": "^2.0.1"
 	},
 	"devDependencies": {
